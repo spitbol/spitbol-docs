@@ -538,7 +538,7 @@ assembly. The full form of a condition is -
                .ca$1
 ```
 
-3 *then* is redundant and may be omitted if wished.
+3 then is redundant and may be omitted if wished.
 
 4 _ms1_, _ms2_ are arbitrary sequences of MINIMAL
             statements either of which may be null or may
@@ -565,7 +565,7 @@ symbol is an error.  Undefining a symbol which is not defined is not
 an error.
 
 The effect is that if a symbol is currently defined,
-*then* in any condition depending on it, _ms1_ will be
+then in any condition depending on it, _ms1_ will be
 processed and _ms2_ omitted. Conversely if it is undefined, _ms1_ will be
 omitted and _ms2_ processed.
 
@@ -1287,7 +1287,7 @@ The value in _w_ after this operation is an undefined one word integer quantity.
 
 Branch and count
 
-BCT uses the counter value in w to branch the required number of times and *then* finally to fall
+BCT uses the counter value in w to branch the required number of times and then finally to fall
 through to the next instruction.
 
 BCT can only be used following an appropriate LCT instruction.
@@ -1353,7 +1353,7 @@ Load next code word
 
 This instruction causes the word pointed to by CP to
 be loaded into the indicated reg. The value in CP is
-*then* incremented by one word.
+then incremented by one word.
 
 Execution of LCW may destroy XL .
 
@@ -1941,7 +1941,7 @@ required for a text string.
 This instruction computes the sum (number of words required to store w
 characters) + (val). the sum is stored in _w_.
 
-For example, CFP$C is 5, and WA contains 32, *then*
+For example, CFP$C is 5, and WA contains 32, then
 CTW WA,2 gives a result of 9 in WA.
 
 *   8.8  CTB  w,val
@@ -2133,8 +2133,7 @@ Following the above rule makes sure that the program
 will operate correctly in implementations with no automatic check.
 
 Stack overflow occurs (detected either automatically or by a
-CHK instruction), *then* control is
-passed to the stack overflow section (see program form).
+CHK instruction), then control is passed to the stack overflow section (see program form).
 
 Note that this transfer may take place following any instruction which stores
 data at a new location on the stack.  After stack overflow, stack is
