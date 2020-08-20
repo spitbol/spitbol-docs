@@ -12,7 +12,7 @@ procedures provides such functions as input and output, system
 initialization and termination, management of UNIX pipes, the loading
 of external functions, and so forth.
 
- The implementation also includes assembly code. This size of this
+The implementation also includes assembly code. This size of this
 code varies according to the target machine. About 1500 lines are
 needed for the x86 architecture running UNIX. This code provides such
 functions as macros that define the translation of MINIMAL
@@ -29,16 +29,16 @@ loop output = input :s(loop)
 end
 ```
 
-By default, the variable _input_ is input-associated to standard input, so each attempt to get its value results in reading in a line from standard input and returning the line as a string.
+By default, the variable _input_ is input-associated to standard input, so each attempt to
+get its value results in reading in a line from standard input and returning the line as a string.
 The read fails if there are no more lines, and succeeds otherwise.
 
 
-Similarly, the variable _output_ is output-associated with standard
-output, so each assignment to _output_ causes the assigned value to be
-written to the standard output file.
+Similarly, the variable _output_ is output-associated with standard output, so each assignment
+to _output_ causes the assigned value to be written to the standard output file.
 
-The osint procedure for writing a line is *SYSOU*. It is called from within SPITBOL as part of assignment, as shown in the follwing excerpt
-from the MINIMAL source:
+The osint procedure for writing a line is SYSOU. It is called from within SPITBOL as part
+of assignment, as shown in the follwing excerpt from the MINIMAL source:
 
 ```
 *      here for output association
@@ -185,7 +185,7 @@ program to match the target machine.
 *   CFP$A
 
 Number of distinct characters in internal alphabet in the range 64
-le CFP$A* le *MAXLEN*.
+le CFP$A le MAXLEN.
 
 *   CFP$B
 
@@ -249,8 +249,8 @@ must not be too large to fit in the integer accum.  .fi
 
 
 Memory is organized into words which each contain
-CFP$B bytes. for word machines *CFP$B
-, which is a configuration parameter, may be one in which case words
+CFP$B bytes. for word machines CFP$B,
+which is a configuration parameter, may be one in which case words
 and bytes are identical. To each word corresponds an address which is
 a non-negative quantity which is a multiple of CFP$B
 .  Data is organized into words as follows.
@@ -272,7 +272,7 @@ words. (CFP$R is a configuration parameter).
 single word (CFP$N is a configuration parameter).
 
 
-*   A word can contain a unsigned integer value in the range (*0 le n le
+*   A word can contain a unsigned integer value in the range (*0* le n le
 CFP$L . These integer values may represent addresses
 of other words and some of the instructions use this fact to provide
 indexing and indirection facilities.
@@ -302,21 +302,20 @@ region consists of a series of words with consecutive addresses.
 ### Registers
 
 
-There are three index registers called XR
-,XL ,XS . In addition
-XL may sometimes be referred to by the alias of *XT* -
+There are three index registers called XR,XL, XS.
+In addition XL may sometimes be referred to by the alias of XT -
 see section 4. Any of the above registers may hold a positive unsigned
-integer in the range (*0 le n le CFP$L ). When the
+integer in the range (*0* le n le CFP$L). When the
 index register is used for indexing purposes, this must be an appropriate address.
 XS is special in that it is
 used to point to the top item of a stack in memory. The stack may
 build up or down in memory.since it is required that
 XS points to the stack top but access to items below
-the top is permitted, registers XS and *XT* may be used
+the top is permitted, registers XS and XT may be used
 with suitable offsets to index stacked items. only XS
-and *XT* may be used for this purpose since the direction of the offset
-is target machine dependent. *XT* is a synonym for XL
-which therefore cannot be used in code sequences referencing *XT*.
+and XT may be used for this purpose since the direction of the offset
+is target machine dependent. XT is a synonym for XL
+which therefore cannot be used in code sequences referencing XT.
 
 
 
@@ -328,11 +327,9 @@ conjunction with the character instructions (see description of plc).
 
 
 
-There are three work registers called WA,WB ,WC which can contain any data item which can be
-stored in a single memory word. In fact, the work registers are just
-like memory locations except that they have no addresses and are
-referenced in a special way by the instructions.
-
+There are three work registers called *WA*,*WB*, *WC*, each of which can contain any data item which can be
+stored in a single memory word. In fact, the work registers are just like memory locations 
+except that they have no addresses and are referenced in a special way by the instructions.
 
 
 Note that registers WA,WB have special uses in connection with the CVD,CVM, MVC MVW MWB, CMC, and  TRC instructions.
@@ -385,10 +382,10 @@ The following notes are to guide both implementors of systems written
 in MINIMAL and MINIMAL programmers in dealing with stack manipulation.
 implementation of a downwards building stack is easiest and in general
 is to be preferred, in which case it is merely necessary to consider
-*XT* as an alternative name for XL .
+XT as an alternative name for XL .
 
 The MINIMAL virtual machine includes a stack and has operand formats
--(XS ) and (*XS* )+ for pushing and
+_-(XS)_ and _(XS)+_ for pushing and
 popping items with an implication that the stack builds down in memory
 (a d-stack). however on some target machines it is better for the
 stack to build up (a u-stack).
@@ -407,17 +404,17 @@ this makes it convenient to advance the stack pointer and then address
 items below it using a second index register.  The problem of signed
 offsets past such a register then arises. to distinguish stack
 offsets, which in some implementations may be negative, from non-stack
-offsets which are invariably positive, *XT*, an alias or synonym for
+offsets which are invariably positive, XT, an alias or synonym for
 XL is used.
 
 For a u-stack implementation, the MINIMAL
 translator should negate the sign of offsets applied to both
-(XS ) and (*XT*).  Programmers should note that since
-*XT* is not a separate register, XL should not be used
-in code where *XT* is referenced. Other modifications needed in u-stack
+(XS ) and (XT).  Programmers should note that since
+XT is not a separate register, XL should not be used
+in code where XT is referenced. Other modifications needed in u-stack
 translations are in the ADD SUB
 ICA DCA opcodes applied to
-XS , *XT*. For example
+XS , XT. For example
 
 ```
        MINIMAL           d-stack trans.  u-stack trans.
@@ -639,7 +636,7 @@ register
 
 _reg_ is used to describe an operand which can be any of the
 registers (XL , XR ,
-XS ,*XT* , WA ,
+XS ,XT , WA ,
 WB , WC ). Such an operand can hold
 a one word integer (address).
 
@@ -652,7 +649,7 @@ a one word integer (address).
 _opc_ is used to designate a specific character operand for use
 in the LCH and SCH instructions.
 the index register referenced must be either XR or
-XL (not XS ,*XT*). see section on
+XL (not XS ,XT). see section on
 character operations.
 
 * _ops_  03,04,09,12,13,14,15
@@ -674,7 +671,7 @@ the case of multiword operands, the address given is the first word.
 _opw_ is used to refer to an operand whose capacity is that of
 a full memory word.  _opw_ includes all the possibilities for
 _ops_ (the referenced word is used) plus the use of one of the
-three work registers (WA,WB ,WC ).
+three work registers (WA,WB,WC).
 in addition, the formats (X)+ and -(X) allow indexed operations in
 which the index register is popped by one word after the reference
 (X)+, or pushed by one word before the reference -(X) these latter two
@@ -684,7 +681,7 @@ used for compactness.
 Note that there is a restriction which disallows
 an instruction to use an index register in one of these formats in
 some other manner in the same instruction.  e.g.  MOV
-XL ,(*XL* )+ is illegal.  The formats
+XL ,(XL)+ is illegal.  The formats
 -(X) and (X)+ may also be used in pre-decrementation,
 post-incrementation to access the adjacent character of a string.
 
@@ -697,9 +694,8 @@ post-incrementation to access the adjacent character of a string.
 _opn_ is used to represent an operand location which can
 contain a one word integer (e.g. an address).  This includes all the
 possibilities for _opw_ plus the use of one of the index
-registers (XL ,XR ,
-*XT* , XS ). The range of integer
-values is *0 le n le CFP$L
+registers (XL ,XR, XT, or XS). The range of integer
+values is *0* le n le CFP$L
 
 * _opv_  as for  _opn_ + 18-22
 
@@ -720,7 +716,7 @@ small integers to be used as literals must be pre-defined, a
 discipline aiding program maintenance and revision.
 
 
-*_addr_ 01,02,03,04,05
+* _addr_ 01,02,03,04,05
 
 address
 
@@ -733,8 +729,8 @@ value) for use with DAC
 
             ************************************************
             *   in the following descriptions the usage --     *
-            *      (XL ),(XR ), ... ,(IA)                        *
-            *   in the descriptive te*XT* signifies the          +
+            *      (XL),(XR ), ... ,(IA)                       *
+            *   in the descriptive text signifies the          *
             *   contents of the stated register.               *
             ************************************************
 ```
@@ -747,7 +743,7 @@ value) for use with DAC
 The following list includes all instruction and assembly operation
 mnemonics in alphabetical order.  The mnemonics are preceded by a
 number identifying the following section where the instruction is
-described.  A star (*) is appended to the mnemonic if the last operand
+described.  A star (\*) is appended to the mnemonic if the last operand
 may optionally be omitted.  See section -15- for details of statement
 format and comment conventions.
 
@@ -1109,7 +1105,7 @@ EXI int causes control to be returned to the int-th
 such param. EXI 1 gives control to the _plbl_
 of the first PPM after the JSR if
 int is omitted, control is passed back past the last exit parameter
-(or past the * JSR* if there are none).
+(or past the JSR if there are none).
 
 For _r and_ _e_
 type procedures, the stack pointer XS must be set to
@@ -1684,16 +1680,15 @@ Prepare character pointer for SCH MVC MCB
 
 _opv_ can be omitted it is zero.
 
-<he character initially addressed
-is determined by the word address in x and the integer offset
+The character initially addressed is determined by the word address in _x_ and the integer offset
 _opv_.
 
-There is an automatic implied offset of CFP$F bytes.  *CFP$F* is used to
+There is an automatic implied offset of CFP$F bytes.  CFP$F is used to
 formally introduce into MINIMAL a value needed in translating these
 opcodes which, since MINIMAL itself does not prescribe a string
 structure in detail, depends on the choice of a data structure for
 strings in the MINIMAL program.  e.g. CFP$B =
-CFP$C = 3, *CFP$F = 6, num01 = 1,
+CFP$C = 3, CFP$F = 6, num01 = 1,
 XL points to a series of 4 words, abc/def/ghi/jkl,
 then PLC XL ,=num01
 points to h.
@@ -1765,7 +1760,7 @@ Jump to _plbl_  _opw_ eq  _opw_
 
 Jump to _plbl_  _opw_ ne  _opw_
 
-*   6.8  CMC  _plbl,plbl_
+*   6.8  CMC  _plbl_,_plbl_
 
 Compare characters
 
@@ -1773,8 +1768,8 @@ CMC is used to compare two character strings. before
 executing CMC  registers are set up as follows.
 
 ```
-            (XL )             character ptr for first string
-            (XR )             character pointer for second string
+            (XL)             character ptr for first string
+            (XR)             character pointer for second string
             (WA)             character count (must be .gt. zero)
 ```
 
@@ -1797,8 +1792,8 @@ TRC is used to translate a character string using a supplied translation table. 
 registers are set as follows.
 
 ```
-            (XL )             char ptr to string to be translated
-            (XR )             char ptr to translate table
+            (XL)             char ptr to string to be translated
+            (XR)             char ptr to translate table
             (WA)             length of string to be translated
 ```
 
@@ -1822,7 +1817,7 @@ character.
 
 And bit string values, result in _w_
 
-*   7.2  ORB   <emp>w,opw_
+*   7.2  ORB   _w,opw_
 
 Or bit string values, result in _w_
 
@@ -1897,29 +1892,26 @@ bytes and lengths in words.
 Convert  _reg_ from words to bytes.
 
 
-That is, multiply by CFP$B . this is a no-op *CFP$B  is one.
+That is, multiply by CFP$B . This is a no-op if CFP$B  is one.
 
 *   8.2  BTW  _reg_
 
-Convert  _reg_ from bytes to words
-
-By dividing _reg_ by CFP$B discarding the fraction. no-op *CFP$B is one
+Convert _reg_ from bytes to words
+by dividing _reg_ by CFP$B discarding the fraction. no-op CFP$B is one
 
 The following instructions provide for conversion of one word integer
 values (addresses) to and from the full signed integer format.
 
 *   8.3  MTI   _opn_
 
-The value of _opn_ (an address) is moved as a positive integer
-to the integer accumulator.
+The value of _opn_ (an address) is moved as a positive integer to the integer accumulator.
 
 *   8.4  MFI   _opn,plbl_
 
 The value currently stored in the integer accumulator is moved to
-_opn_ as an address it is in the range 0 to
-CFP$M inclusive.
+_opn_ as an address it is in the range 0 to CFP$M inclusive.
 
-IftThe accumulator value is outside this range, *then* the result in _opn_ is
+If the accumulator value is outside this range, then the result in _opn_ is
 undefined and control is passed to _plbl_.
 
 MFI destroys the value of (IA) whether or not integer overflow is
@@ -1971,12 +1963,12 @@ The integer accumulator, which is zero or negative, is multiplied by
 10. WB contains the character code for a digit. the
 value of this digit is then subtracted from the result.
 
-The result is out of range, *then* control is passed to _plbl_
+The result is out of range, then control is passed to _plbl_
 with the result in (IA) undefined. execution of CVM leaves the result in (WB )
 undefined.
 
 
-*8.10 cvd
+* 8.10 cvd
 
 Convert by division
 
@@ -2022,7 +2014,7 @@ PSC resp.  MVC is equivalent to the sequence
 The character pointers are bumped as indicated and the final value of WA is undefined.
 
 
-*9.2  MVW
+* 9.2  MVW
 
               move words
 
@@ -2185,14 +2177,14 @@ present.
 
 Define _text_ constant.
 
-*Text* is started and ended with any character not contained in the
+Text is started and ended with any character not contained in the
 characters to be assembled. The constant occupies consecutive words as
 dictated by the configuration parameter CFP$C .
 
 Any unused chars in the last word are right filled with zeros (i.e. the
 character whose internal code is zero).  The string contains a
 sequence of letters, digits, blanks and any of the following special
-characters.  =,$.(*)/+-
+characters.  =,$.(\*)/+-
 
 
 No other characters may be used in a _dtext_ operand.
@@ -2214,8 +2206,9 @@ section. It may not be used elsewhere.
 
 Define symbol
 
-The symbol which appears in the label field is defined to have the absolute value given by the _eqop_ operand. A given
-symbol may be defined only once in this manner, and any symbols occuring in _eqop_ must be previously defined.
+The symbol which appears in the label field is defined to have the absolute value given by the _eqop_ operand.
+A given symbol may be defined only once in this manner, and any symbols occuring in _eqop_ 
+must be previously defined.
 
 The following are the possibilities for _eqop_
 
@@ -2359,13 +2352,13 @@ following specified order.
 
 ```
 
-*1  4.2 END
+* 1  4.2 END
 
 End of assembly
 
 ### Section 10 - Program Form
 
-*procedure section
+* procedure section
 
 
 
@@ -2375,7 +2368,7 @@ procedures,routines so that a single pass MINIMAL translator has
 advance knowledge of procedure types when translating calls.
 
 
-*definitions section
+* definitions section
 
 
 
@@ -2394,22 +2387,16 @@ program instructions.
 
 
 
-*working storage section
-
-
+* working storage section
 
 The working storage section consists entirely of DAC
-dic,DRC DBC dtc instructions to
-define a fixed length work area. The work locations in this area can
-be directly referenced in program instructions.  The area is
-initialized in accordance with the values assembled in the
-instructions.
+DIC, DRC,DBC, DTC instructions to define a fixed length work area.
+The work locations in this area can be directly referenced in program instructions.
+The area is initialized in accordance with the values assembled in the instructions.
 
 
 
-*program section
-
-
+* program section
 
 The program section contains program instructions and associated
 operations (such as PRC ENP ENT).
@@ -2418,10 +2405,7 @@ operations (such as PRC ENP ENT).
 Control is passed to the first instruction in this section when
 execution is initiated.
 
-*stack overflow section
-
-
-
+* stack overflow section
 
 The stack overflow section contains instructions like the program
 section.
@@ -2430,9 +2414,7 @@ Control is passed to the first instruction in this section
 following the occurrence of stack overflow, see CHK
 instruction.
 
-*error section
-
-
+* error section
 
 The error section contains instructions like the program section.
 
@@ -2443,25 +2425,19 @@ ERB opcode is obeyed.
 The error code must clean up the main stack and cater for
 the possibility that a subroutine stack may need clean up.
 
-*osint
-
-
+* osint
 
 Though not part of the MINIMAL source, it is useful to refer to the
 collection of initialisation and *exp* routines as
 osint (operating system interface).
 
-  Errors occurring within osint
+Errors occurring within osint
 procedures are usually handled by making an error return. If this is
 not feasible or appropriate, osint may use the MINIMAL error section
 to report errors directly by branching to it with a suitable numeric
 error code in WA.  
 
 ### Section 11 - Statement Format
-
-
-
-
 
 All labels are exactly five characters long and start with three
 letters (abcdefghijklmnopqrstuvwxy$) followed by two letters or
@@ -2516,47 +2492,39 @@ MINIMAL statements are in a fixed format as follows.
 ```
 ### Section 12 - Program Execution
 
-
-Execution of the program begins with the first instruction in the
-program section.
-
-
+Execution of the program begins with the first instruction in the program section.
 
 In addition to the fixed length memory regions defined by the
-assembly, there are two dynamically allocated memory regions as
-follows.
+assembly, there are two dynamically allocated memory regions as follows.
 
 
 *   data area
 
 
-This is an area available to the program for general storage of data
-any data value may be stored in this area except instructions.
+This is an area available to the program for general storage of data.  Any data value 
+may be stored in this area except instructions.
 
-In some implementations, it may be possible to increase the size of this
-area dynamically by adding words at the top end with a call to a
-system procedure.
+In some implementations, it may be possible to increase the size of this area dynamically 
+by adding words at the top end with a call to a system procedure.
 
 *   stack area
 
-This region of memory holds the stack used for subroutine calls and
-other storage of one word integer values (addresses). This is the
-stack associated with index register XS .
+This region of memory holds the stack used for subroutine calls and other storage of one word 
+integer values (addresses). This is the stack associated with index register XS .
 
-The locations and sizes of these areas are specified by the values in
-the registers at the start of program execution as follows.
+The locations and sizes of these areas are specified by the values in the registers at the 
+start of program execution as follows.
 
 *   (XS )
 
-Address one past the stack base.  For example, if  XS
-is 23456, a d-stack will occupy words 23455,23454,...  whereas a
-u-stack will occupy 23457,23458,...
+Address one past the stack base.  For example, if  XS is 23456, a d-stack will occupy words 23455,23454,...
+whereas a u-stack will occupy 23457,23458,...
 
-*   (XR )
+*   (XR)
 
 Address of the first word in the data area
 
-    *(XL)
+    (XL)
 
 Address of the last word in the data area.
 
@@ -2566,25 +2534,23 @@ Initial stack pointer
 
 *   (WB ,WC ,IA ,ra,CP )
 
-There is no explicit way to terminate the execution of a program. This
-function is performed by an appropriate system procedure referenced
-with the SYSEJ instruction.
+There is no explicit way to terminate the execution of a program. This function is performed by an 
+appropriate system procedure referenced with the SYSEJ instruction.
 
 
 ## SPITBOL Operating System Interface (OSINT)
 
-This section describes the operating system interface functions,
-mostly written in C, the are used by MACRO SPITBOL for runtime
-support,doing input/output, loading external functions, reading and
-writing save files, reading and writing load modules, and so forth.
+This section describes the operating system interface functions, mostly written in C,
+that are used by MACRO SPITBOL for runtime support,doing input/output, loading external functions,
+reading and writing save files, reading and writing load modules, and so forth.
 
 ### SYSAX -- after execution
 
- If the conditional assembly symbol .csax is defined, this routine
+If the conditional assembly symbol .csax is defined, this routine
 is called immediately after execution and before printing of execution
 statistics or dump output.
 
- The purpose of call is for the implementor to determine and if the
+The purpose of call is for the implementor to determine and if the
 call is not required it will be omitted if .csax is undefined. in this
 case SYSAX need not be coded.
 
@@ -2595,7 +2561,7 @@ JSR  SYSAX            call after execution
 
 SYSBS is used to implement the snobol4 function backspace.
 
- If the conditional assembly symbol .cbsp is defined.  the meaning
+If the conditional assembly symbol .cbsp is defined.  the meaning
 is system dependent.  In general, backspace repositions the file one
 record closer to the beginning of file, such that a subsequent read or
 write will operate on the previous record.
@@ -2617,7 +2583,7 @@ devices are in this category.
 
 ### SYSBP  exp  0                define external entry point
 
- SYSBP is not required in normal operation. It is
+SYSBP is not required in normal operation. It is
 called as a breakpoint to assist in debugging.
 
 ```
@@ -2663,7 +2629,7 @@ any trailing blanks, and conversion cannot fail.
 
 ### SYSCB -- general string comparison function
 
- Provides string comparison determined by interface.  used for
+Provides string comparison determined by interface.  used for
 international string comparison.
 
 
@@ -2740,9 +2706,8 @@ dump
 
 ### SYSDT -- get current date
 
-SYSDT is used to obtain the current date. The date is returned as a character string in any format appropriate to
-the operating system in use. It may also contain the current time of
-day.
+SYSDT is used to obtain the current date. The date is returned as a character string in 
+any format appropriate to the operating system in use. It may also contain the current time of day.
 
 SYSDT is used to implement the SNOBOL4 function DATE().
 
@@ -2752,9 +2717,8 @@ SYSDT is used to implement the SNOBOL4 function DATE().
        (XL)                  pointer to block containing date
 ```
 
-The format of the block is like an SCBLK except
-that the first word need not be set. The result is copied into SPITBOL
-dynamic memory on return.  
+The format of the block is like an SCBLK except that the first word need not be set.
+The result is copied into SPITBOL dynamic memory on return.  
 
 ### SYSEA -- inform osint of compilation and runtime errors
 
@@ -2772,17 +2736,15 @@ Provides means for interface to take special actions on errors
 
 ```
 
-SYSEA may not return if interface chooses to
-retain control.  Closing files via the fcb chain will be the
-responsibility of the interface.
+SYSEA may not return if interface chooses to retain control.
+Closing files via the fcb chain will be the responsibility of the interface.
 
 All registers must be preserved
 
 ### SYSEF -- eject file
 
-SYSEF is used to write a page eject to a named
-file. It may only be used for files where this concept makes sense.
-Note that SYSEF is not normally used for the standard
+SYSEF is used to write a page eject to a named file. It may only be used for files
+where this concept makes sense.  Note that SYSEF is not normally used for the standard
 output file (see SYSEP).
 
 ```
@@ -2796,11 +2758,10 @@ output file (see SYSEP).
 
 ### SYSEJ -- end of job
 
-SYSEF is used to write a page eject to a named
-file. It may only be used for files where this concept makes sense.
+SYSEF is used to write a page eject to a named file. It may only be used for files
+where this concept makes sense.
 
-Note that SYSEF is not normally used for the
-standard output file (see SYSEP).
+Note that SYSEF is not normally used for the standard output file (see SYSEP).
 
 ```
        (WA)                  pointer to FCBLK or zero
@@ -2813,8 +2774,8 @@ standard output file (see SYSEP).
 
 ### SYSEF -- end of job
 
-SYSEF is used to write a page eject to a named
-file. It may only be used for files where this concept makes sense.
+SYSEF is used to write a page eject to a named file. It may only be used for 
+files where this concept makes sense.
 
 Note that SYSEF is not normally used for the standard output file (see SYSEP).
 
@@ -2829,11 +2790,9 @@ Note that SYSEF is not normally used for the standard output file (see SYSEP).
 
 ### SYSEJ -- end of job
 
-SYSEJ is called once at the end of execution to
-terminate the run. The significance of the abend and code values is
-system dependent. In general, the code value should be made available
-for testing, and the abend value should cause some post-mortem action
-such as a dump.
+SYSEJ is called once at the end of execution to terminate the run. The significance of the 
+abend and code values is system dependent. In general, the code value should be made available
+for testing, and the abend value should cause some post-mortem action such as a dump.
 
 Note that SYSEJ does not return to its caller.  See SYSXI for details of FCBLK chain
 
@@ -2865,19 +2824,17 @@ to return a null string if this facility is unavailable.
        (XR)                  text of message
 ```
 
-The returned value is a pointer to a block in
-SCBLK format except that the first word need not be
-set. The string is copied into dynamic memory on return.  if the null
-string is returned either because SYSEM does not
-provide error message texts or because *wa* is out of
-range, SPITBOL will print the string stored in errtext keyword.
+The returned value is a pointer to a block in SCBLK format except that the first 
+word need not be set. The string is copied into dynamic memory on return.  
+If the null string is returned either because SYSEM does not
+provide error message texts or because WA is out of range, SPITBOL will print the 
+string stored in errtext keyword.
 
 ### SYSEN - endfile
 
-SYSEN is used to implement the snobol4 function
-endfile.  The meaning is system dependent. In general, endfile implies
-that no further i/o operations will be performed, but does not
-guarantee this to be the case. The file should be closed after the
+SYSEN is used to implement the snobol4 function endfile.  The meaning is system dependent.
+In general, endfile implies that no further i/o operations will be performed,
+but does not guarantee this to be the case. The file should be closed after the
 call, a subsequent read or write may reopen the file at the start or
 it may be necessary to reopen the file via SYSIO.
 
@@ -2891,15 +2848,12 @@ it may be necessary to reopen the file via SYSIO.
        (WA,WB)               destroyed
 ```
 
-The second error return is used for files for which endfile is not
-permitted. For example, it may be expected that the standard input and
-output files are in this category.
+The second error return is used for files for which endfile is not permitted.
+For example, it may be expected that the standard input and output files are in this category.
 
 ### SYSEP -- eject printer page
 
-SYSEP is called to perform a page eject on the
-standard printer output file (corresponding to SYSPR
-output).
+SYSEP is called to perform a page eject on the standard printer output file (corresponding to SYSPR output).
 
 ```
        JSR  SYSEP            call to eject printer output<
@@ -2907,8 +2861,7 @@ output).
 
 ### SYSEX -- call external function
 
-SYSEX is called to pass control to an
-external function previously loaded with a call to SYSLD.
+SYSEX is called to pass control to an external function previously loaded with a call to SYSLD.
 
 ```
        (XS)                  pointer to arguments on stack
@@ -2922,33 +2875,28 @@ external function previously loaded with a call to SYSLD.
        (XR)                  result returned
 ```
 
-The arguments are stored on the stack with the last argument at
-0(XS). On return, XS is popped past the arguments.
+The arguments are stored on the stack with the last argument at 0(XS). 
+On return, XS is popped past the arguments.
 
-The form of the arguments as passed is that used in the SPITBOL
-translator (see definitions and data structures section). The control
-block format is also described (under EFBLK) in this
-section.
+The form of the arguments as passed is that used in the SPITBOL translator (see definitions
+and data structures section). The control block format is also described (under EFBLK) in this section.
 
 There are two ways of returning a result:
 
 
-Return a pointer to a block in dynamic storage. this block must
-be in exactly correct format, including the first word. Only functions
-written with intimate knowledge of the system will return in this
+Return a pointer to a block in dynamic storage. This block must be in exactly correct format,
+including the first word. Only functions written with intimate knowledge of the system will return in this
 way.
 
-String, integer and real results may be returned by pointing to a
-pseudo-block outside dynamic memory.
+String, integer and real results may be returned by pointing to a pseudo-block outside
+dynamic memory.
 
-This block is in ICBLK, RCBLK or
-SCBLK format except that the first word will be
-overwritten by a type word on return and so need not be correctly set.
+This block is in ICBLK, RCBLK or SCBLK format except that the first word will be overwritten 
+by a type word on return and so need not be correctly set.
 
 
-Such a result is copied into main storage before proceeding.
-unconverted results may similarly be returned in a pseudo-block which
-is in correct format including type word recognisable by garbage
+Such a result is copied into main storage before proceeding.  Unconverted results may similarly be
+returned in a pseudo-block which is in correct format including type word recognisable by garbage
 collector since block is copied into dynamic memory.
 
 
@@ -3021,7 +2969,6 @@ If the request is for an xr*blk*
 collectable (i.e.  any apparent pointers into dynamic should be
 genuine block pointers).
 
-
 These restrictions do not apply if an FCBLK is
 allocated outside dynamic or is not allocated at all.
 
@@ -3077,8 +3024,7 @@ FCBLK.
       (WB)                  destroyed
 ```
 
-### SYSGC -- inform interface of garbage
-collections
+### SYSGC -- inform interface of garbage collections
 
 Provides means for interface to take special actions prior to and
 after a garbage collection.
@@ -3669,7 +3615,7 @@ loaded and executed.
 This type of chain execution is very system dependent and
 implementors may choose to omit it or find it impossible to provide.
 
-If XL) is zero,ia contains one of the following
+If *(XL)* is zero,ia contains one of the following
 integers
 
 ```
@@ -3734,11 +3680,9 @@ fourth word contains a FCBLK pointer.
                              in which case 1 should be returned.
 ```
 
-Loading and running the load module or returning from jcl command
-level causes execution to resume at the point after the error returns
-which follow the call of SYSXI.  The value passed as
-exit argument is used to indicate options required on resumption of
-load module.
+Loading and running the load module or returning from jcl command level causes execution 
+to resume at the point after the error returns which follow the call of SYSXI.
+The value passed as exit argument is used to indicate options required on resumption of load module.
 
 The values +1 or -1 require that on resumption, SYSID and
 SYSPP be called and a heading printed on the standard
@@ -3747,17 +3691,15 @@ output file.
 The values +2 or -2 indicate that SYSPP will be called but not SYSID
 and no heading will be put on standard output file.
 
-Above options have the obvious implication that a
-standard o/p file must be provided for the load module.
+Above options have the obvious implication that a standard o/p file 
+must be provided for the load module.
 
 The values +3, +4, -3 or -4 indicate calls of neither SYSID nor
-SYSPP and no heading will be placed on standard output
-       file.
+SYSPP and no heading will be placed on standard output file.
 
 The values  +4 or -4 indicate that execution is to continue after creation of
 the save file or load module, although all files will be closed by the
 SYSXI action.  This permits the user to checkpoint
 long-running programs while continuing execution.
 
-No return from SYSXI is possible if another
-program is loadednd entered.
+No return from SYSXI is possible if another program is loadednd entered.
