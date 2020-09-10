@@ -611,12 +611,10 @@ of instructions and assembly operations.
       27   dtext            delimited text string (dtc)
 ```
 
-The numbers in the above list are used in subsequent description and
-in some of the MINIMAL translators.
+The numbers in the above list are used in subsequent description and in some of the MINIMAL translators.
 
 
-The following special symbols refer to a collection of the listed
-possibilities
+The following special symbols refer to a collection of the listed possibilities
 
 
 *   _val_  01,02
@@ -625,20 +623,16 @@ possibilities
 
 
 
-_val_ is used to refer to a predefined one word integer value in the
-range 0 le n le CFP$L
+_val_ is used to refer to a predefined one word integer value in the range 0 le n le CFP$L
 
-*reg  07,08
+_reg_  07,08
 
 register
 
 
 
-_reg_ is used to describe an operand which can be any of the
-registers (XL , XR ,
-XS ,XT , WA ,
-WB , WC ). Such an operand can hold
-a one word integer (address).
+_reg_ is used to describe an operand which can be any of the registers (XL , XR , XS ,XT , WA ,
+WB , WC ). Such an operand can hold a one word integer (address).
 
 * _opc_  09,10,11
 
@@ -646,11 +640,9 @@ a one word integer (address).
 
 
 
-_opc_ is used to designate a specific character operand for use
-in the LCH and SCH instructions.
-the index register referenced must be either XR or
-XL (not XS ,XT). see section on
-character operations.
+_opc_ is used to designate a specific character operand for use in the LCH and SCH instructions.
+the index register referenced must be either XR or XL (not XS ,XT). see section on character
+operations.
 
 * _ops_  03,04,09,12,13,14,15
 
@@ -658,9 +650,8 @@ character operations.
 
 
 
-_ops_ is used to describe an operand which is in memory. the
-operand may be one or more words long depending on the data type. In
-the case of multiword operands, the address given is the first word.
+_ops_ is used to describe an operand which is in memory. the operand may be one or more words long
+depending on the data type. In the case of multiword operands, the address given is the first word.
 
 * _opw_  as for  _ops_ + 08,10,11
 
@@ -695,7 +686,7 @@ _opn_ is used to represent an operand location which can
 contain a one word integer (e.g. an address).  This includes all the
 possibilities for _opw_ plus the use of one of the index
 registers (XL ,XR, XT, or XS). The range of integer
-values is *0* le n le CFP$L
+values is _0_ le n le CFP$L
 
 * _opv_  as for  _opn_ + 18-22
 
@@ -722,8 +713,7 @@ address
 
 
 
-_addr_ is used to describe an explicit address value (one word integer
-value) for use with DAC
+_addr_ is used to describe an explicit address value (one word integer value) for use with DAC
 
 ```
 
@@ -824,7 +814,7 @@ format and comment conventions.
 | 12.4|inr| |internal routine|
 | 4.10|iov|plbl|jump if integer overflow|
 | 8.5|itr| | convert integer to real|
-| 1.9|JSR|pnam|call procedure|
+| 1.9|jsr|pnam|call procedure|
 | 6.3|lch|reg,opc|load character|
 | 2.15|lct|w,opv|load counter for loop|
 | 3.1|lcp|reg|load code pointer register|
@@ -901,13 +891,10 @@ The following descriptions assume the definitions -
 
 *   1.1  MOV   _opn,opv_  move one word value
 
-MOV causes the value of operand _opv_ to be
-set as the new contents of operand location _opn_. In the case
-where _opn_ is not an index register, any value which can
-normally occupy a memory word (including a part of a multiword real or
-integer value) can be transferred using MOV. If the
-target location _opn_ is an index register,
-then _opv_ must specify an appropriate one
+MOV causes the value of operand _opv_ to be set as the new contents of operand location _opn_.
+In the case where _opn_ is not an index register, any value which can normally occupy a
+memory word (including a part of a multiword real or integer value) can be transferred using MOV.
+If the target location _opn_ is an index register, then _opv_ must specify an appropriate one
 word value or operand containing such an appropriate value.
 
 * 1.2  BRN  _plbl_    unconditional branch
@@ -928,78 +915,59 @@ label in the program section.
 *   1.5  ESW      end of branch switch table
 
 
-BSW IFF,ESW provide a capability for
-a switched branch similar to a fortran computed goto. The _val_ on the
-BSW instruction is the maximum number of branches.
-the value in x ranges from zero up to but not including this maximum.
-each IFF provides a branch.
+BSW IFF,ESW provide a capability for a switched branch similar to a fortran computed goto.
+The _val_ on the BSW instruction is the maximum number of branches.  The value in x ranges
+from zero up to but not including this maximum.  each IFF provides a branch.
 
-_val_ must be less than
-that given on the bsw and control goes to _plbl_ if the value
-in x matches.  If the value in x does not correspond to any of the
-IFF entries, then control passes to
-the _plbl_ on the BSW.
+_val_ must be less than that given on the bsw and control goes to _plbl_ if the value in x matches.
+If the value in x does not correspond to any of the IFF entries, then control passes to the _plbl_
+on the BSW.
 
 The  _plbl_ operand may be omitted if there are no values missing from the list.
 
 
-IFF and ESW may only be used in this
-contextxt.  Execution of BSW may destroy the contents
-of _x_.
+IFF and ESW may only be used in this contextxt.  Execution of BSW may destroy the contents of _x_.
 
-The IFF entries may be in any order and since a translator may thus need to store and sort them, the comment field
-is restricted in length (sec 11).
+The IFF entries may be in any order and since a translator may thus need to store and sort them,
+the comment field is restricted in length (sec 11).
 
 *   1.6  ENT  _val_ define program entry point
 
-The symbol appearing in the label field is defined to be a program
-entry point which can subsequently be used in conjunction with the
-BRI instruction, which provides the only means of
-entering the code. It is illegal to fall into code identified by an
-entry point. the entry symbol is assigned an address which need not be
-a multiple of CFP$B but which must be in the range 0
-le CFP$L and the address must not lie within the
-address range of the allocated data area.  Furthermore, addresses of
-successive entry points must be assigned in some ascending sequence so
-that the address comparison instructions can be used to test the order
-in which two entry points occur. The symbol _val_ gives an identifying
-value to the entry point which can be accessed with the
-LEI instruction.
+The symbol appearing in the label field is defined to be a program entry point which can
+subsequently be used in conjunction with the BRI instruction, which provides the only
+means of entering the code. It is illegal to fall into code identified by an entry point.
+the entry symbol is assigned an address which need not be a multiple of CFP$B but which must
+be in the range 0 le CFP$L and the address must not lie within the address range of the
+allocated data area.  Furthermore, addresses of successive entry points must be assigned
+in some ascending sequence so that the address comparison instructions can be used to test
+the order in which two entry points occur. The symbol _val_ gives an identifying value
+to the entry point which can be accessed with the LEI instruction.
 
-
-
-Note - subject to the restriction below, _val_ may be omitted if no such
-identification is needed i.e.
-If no LEI references
-the entry point. For this case, a translation optimisation is possible
-in which no memory need be reserved for a null identification which is
-never to be referenced, but only provided this is done so as not to
-interfere with the strictly ascending sequence of entry point
-addresses. To simplify this optimisation for all implementors, the
+Note - subject to the restriction below, _val_ may be omitted if no such identification is
+needed i.e.  If no LEI references the entry point. For this case, a translation optimisation
+is possible in which no memory need be reserved for a null identification which is never to
+be referenced, but only provided this is done so as not to interfere with the strictly ascending
+sequence of entry point addresses. To simplify this optimisation for all implementors, the
 following restriction is observed
 
 <blockquote>
-                 _val_ may only be omitted if the entry point is
-                 separated from a following entry point by a
-                 non-null MINIMAL code sequence.
+                 _val_ may only be omitted if the entry point is separated from a following
+		entry point by a non-null MINIMAL code sequence.
 </blockquote>
 
 
 
-Entry point addresses are accessible only by use of literals
-(=_elbl_, section 7) or DAC constants (section
-8-11.1).
+Entry point addresses are accessible only by use of literals (=_elbl_, section 7) or
+DAC constants (section 8-11.1).
 
 *   1.7  BRI   _opn_      branch indirect
 
-_opn_ contains the address of a program entry point (see ent).
-control is passed to the executable code starting at the entry point
-address.  _opn_ is left unchanged.
+_opn_ contains the address of a program entry point (see ent).  control is passed to the
+executable code starting at the entry point address.  _opn_ is left unchanged.
 
 *   1.8  LEI  _x_         load entry point identification
 
-X contains the address of an entry point for which an identifying
-value was given on the the ENT line.
+X contains the address of an entry point for which an identifying value was given on the the ENT line.
 LEI replaces the contents of _x_ by this value.
 
 *   1.9  JSR  _pnam_      call procedure _pnam_
@@ -1012,43 +980,32 @@ LEI replaces the contents of _x_ by this value.
             PPM  _plbl_         ...
 ```
 
-JSR causes control to be passed to the named
-procedure. _pnam_ is the label on a PRC
-statement elsewhere in the program section (see prc) or has been
-defined using an *exp* instruction.
+JSR causes control to be passed to the named procedure. _pnam_ is the label on a PRC statement
+elsewhere in the program section (see prc) or has been defined using an *exp* instruction.
 
-The
-PPM exit parameters following the call give names of
-program locations (_plbl_-s) to which alternative
-EXI returns of the called procedure may pass control.
+The PPM exit parameters following the call give names of program locations (_plbl_-s) to
+which alternative EXI returns of the called procedure may pass control.
 
-They may optionally be replaced by error returns (see err). the number
-of exit parameters following a JSR must equal the int
-in the procedure definition.
+They may optionally be replaced by error returns (see err). the number of exit parameters 
+following a JSR must equal the int in the procedure definition.
 
-The operand of PPM may
-be omitted if the corresponding EXI return is certain
-not to be taken.
+The operand of PPM may be omitted if the corresponding EXI return is certain not to be taken.
 
 *   1.11 PRC  _ptyp,int_  define start of procedure
 
-The symbol appearing in the label field is defined to be the name of a
-procedure for use with JSR a procedure is a
-contiguous section of instructions to which control may be passed with
+The symbol appearing in the label field is defined to be the name of a procedure for use with
+JSR a procedure is a contiguous section of instructions to which control may be passed with
 a JSR instruction.
 
-This is the only way in which the instructions in a
-procedure may be executed.
+This is the only way in which the instructions in a procedure may be executed.
 
 It is not permitted to fall into a
 procedure.  All procedures should be named in section 0
 INP statements.
 
-_int_ is the number of exit parameters (PPM-s) to be used in
-JSR calls.
+_int_ is the number of exit parameters (PPM-s) to be used in JSR calls.
 
-There are three possibilities for _ptyp_, each consisting of a
-single letter as follows.
+There are three possibilities for _ptyp_, each consisting of a single letter as follows.
 
 
 *  r    recursive
@@ -1076,85 +1033,69 @@ may be regarded as no- _ops_ for implementations using method
 * either
 
 
-The return point may be stored in either manner according to
-efficiency requirements of the actual physical machine used for the
-implementation.
+The return point may be stored in either manner according to efficiency requirements of the actual
+physical machine used for the implementation.
 
-Note that programming of _e_ type procedures must be
-independent of the actual implementation.
+Note that programming of _e_ type procedures must be independent of the actual implementation.
 
-The actual form of the return point is undefined.  However, each word
-stored on the stack for an r-type call must meet the following
-requirements.
+The actual form of the return point is undefined.  However, each word stored on the stack for
+an r-type call must meet the following requirements.
 
 1   It can be handled as an address and placed in an index register.
 
 
-When used as an operand in an address comparison instruction, it must
-not appear to lie within the allocated data area.
+When used as an operand in an address comparison instruction, it must not appear to lie within
+the allocated data area.
 
 2   It is not required to appear to lie within the program section.
 
 *   1.12 EXI  _int_       exit from procedure
 
 
-The PPM and ERR parameters following
-a JSR are numbered starting from 1.
+The PPM and ERR parameters following a JSR are numbered starting from 1.
 
-EXI int causes control to be returned to the int-th
-such param. EXI 1 gives control to the _plbl_
-of the first PPM after the JSR if
-int is omitted, control is passed back past the last exit parameter
-(or past the JSR if there are none).
+EXI int causes control to be returned to the int-th such param. EXI 1 gives control to the _plbl_
+of the first PPM after the JSR if int is omitted, control is passed back past the last
+exit parameter (or past the JSR if there are none).
 
-For _r and_ _e_
-type procedures, the stack pointer XS must be set to
-its appropriate entry value before executing an EXI
-instruction.
+For _r and_ _e_ type procedures, the stack pointer XS must be set to its appropriate entry value
+before executing an EXI instruction.
 
-In this case, EXI removes return points
-from the stack if any are stored there so that the stack pointer is
-restored to its calling value.
+In this case, EXI removes return points from the stack if any are stored there so that the
+stack pointer is restored to its calling value.
 
 *   1.13 ENP  define end of procedure body
 
 
-
-ENP delimits a procedure body and may not actually be
-executed, hence it must have no label.
+ENP delimits a procedure body and may not actually be executed, hence it must have no label.
 
 *   1.14 ERR  _int,text_  provide error return
 
 
 
-ERR may replace an exit parameter (PPM) in any
-procedure call. the int argument is a unique error code in 0 to 899.
+ERR may replace an exit parameter (PPM) in any procedure call. the int argument is a unique
+error code in 0 to 899.
 
-The text supplied as the other operand is arbitrary text in the
-FORTRAN character set and may be used in constructing a file of error
-messages for documenting purposes or for building a direct access or
-other file of messages to be used by the error handling code.
+The text supplied as the other operand is arbitrary text in the FORTRAN character set and may
+be used in constructing a file of error messages for documenting purposes or for building a
+direct access or other file of messages to be used by the error handling code.
 
-In the event that an EXI attempts to return control via an
-exit parameter to an ERR control is instead passed to
-the first instruction in the error section (which follows the program
-section) with the error code in WA.
+In the event that an EXI attempts to return control via an exit parameter to an ERR control is
+instead passed to the first instruction in the error section (which follows the program section)
+with the error code in WA.
 
 *   1.15 ERB  _int,text_  error branch
 
-This instruction resembles ERR except that it may
-occur at any point where a branch is permitted.  It effects a transfer
-of control to the error section with the error code in WA.
+This instruction resembles ERR except that it may occur at any point where a branch is permitted.
+It effects a transfer of control to the error section with the error code in WA.
 
 *   1.16 ICV   _opn_  increment value by one
 
-ICV increments the value of the operand by unity.  it
-is equivalent to ADD _opn_,=unity
+ICV increments the value of the operand by unity.  It is equivalent to ADD _opn_,=unity
 
 *   1.17 DCV   _opn_      decrement value by one
 
-DCV decrements the value of the operand by unity.  It
-is equivalent to SUB _opn=unity_
+DCV decrements the value of the operand by unity.  It is equivalent to SUB _opn=unity_
 
 *   1.18 ZER   _opn_ zeroise  _opn_
 
@@ -1163,17 +1104,14 @@ ZER is equivalent to MOV =zeroe,_opn_
 *   1.19 MNZ   _opn_ move non-zero to  _opn_
 
 
-Any non-zero collectable value may used, for which the opcodes *bnz/bze*
-will branch/fail to branch.
-
+Any non-zero collectable value may used, for which the opcodes _bnz_ or _bze_ will branch/fail to branch.
 
 *   1.20 SSL   _opw_      subroutine stack load
 
 *   1.21 SSS   _opw_      subroutine stack store
 
-This pair of operations is provided to make possible the use of a
-local stack to hold subroutine (subroutine) return links for n-type
-procedures.
+This pair of operations is provided to make possible the use of a local stack to hold subroutine
+(subroutine) return links for n-type procedures.
 
     SSS stores the subroutine stack pointer in _opw_ and SSL loads the subroutine stack pointer from _opw_.
 
@@ -1181,9 +1119,8 @@ By using SSS in the main program or on entry to a procedure which should regain 
 ERR or ERB and by use of SSL in the error processing sections the subroutine stack
 pointer can be restored giving a link stack cleaned up ready for resumed execution.
 
-The form of the link stack pointer is undefined in MINIMAL (it is likely to be a private register known to the
-translator) and the only requirement is that it should fit into a
-single full word.
+The form of the link stack pointer is undefined in MINIMAL (it is likely to be a private register
+known to the translator) and the only requirement is that it should fit into a single full word.
 
 SSL and SSS are no-ops if no private link stack is not used.
 
@@ -1192,9 +1129,9 @@ SSL and SSS are no-ops if no private link stack is not used.
 
 However it is entered by any type of conditional or unconditional branch (not by JSR).
 
-On termination it passes control by a branch (often BRI through a code word) or even permits control to drop through to another routine.
-
-No return link exists and the end of a routine is not marked by an explicit opcode (compare ENP).
+On termination it passes control by a branch (often BRI through a code word) or even permits control
+to drop through to another routine.  No return link exists and the end of a routine is not marked by
+an explicit opcode (compare ENP).
 
 All routines must be named in section 0 INR statements.  
 
@@ -1203,25 +1140,21 @@ All routines must be named in section 0 INR statements.
 
 *   2.1  ADD   _opn,opv_
 
-Adds  _opv_ to the value in  _opn_ and stores the result in  _opn_. 
-Undefined if the result exceeds CFP$L .
+Adds  _opv_ to the value in  _opn_ and stores the result in  _opn_.  Undefined if the result exceeds CFP$L .
 
 *   2.2  SUB   _opn,opv_
 
 
 
-Subtracts _opv_ from _opn_, and stores the result in
-_opn_. Undefined if the result is negative.
+Subtracts _opv_ from _opn_, and stores the result in _opn_. Undefined if the result is negative.
 
 *   2.3  ICA   _opn_
 
-Increment address in  _opn_
-Equivalent to ADD  _opn_,*unity
+Increment address in  _opn_. Equivalent to ADD  _opn_,_unity_
 
 *   2.4  DCA   _opn_
 
-Decrement address in _opn_ equivalent to SUB
-_opn_,*unity
+Decrement address in _opn_ equivalent to SUB _opn_,_unity_
 
 *   2.5  BEQ   _opn,opv,plbl_
 
@@ -1259,9 +1192,9 @@ Equivalent to BLT or ble
 Equivalent to BGT or BGE
 
 
-The above instructions compare two address values as unsigned integer
-values.  The BLO and BHI instructions are used in cases where the equal condition either does
-not occur or can result either in a branch or no branch.
+The above instructions compare two address values as unsigned integer values.  The BLO and BHI
+instructions are used in cases where the equal condition either does not occur or can result
+either in a branch or no branch.
 
 This avoids inefficient translations in some implementations.
 
@@ -1277,9 +1210,8 @@ Equivalent to BEQ  _opn_,=zeroe,_plbl_
 
 Load counter for BCT
 
-LCT loads a counter value for use with the BCT
-instruction. The value in _opv_ is the number of loop
-operations  to be executed.
+LCT loads a counter value for use with the BCT instruction. The value in _opv_ is the number of
+loop operations  to be executed.
 
 The value in _w_ after this operation is an undefined one word integer quantity.
 
@@ -1313,47 +1245,39 @@ Branch odd
 These operations are used only .cepp or .crpp is defined.
 
 On some implementations, a more efficient implementation is possible by noting
-that address of blocks must always be a multiple of
-CFP$B. We call such addresses even.
+that address of blocks must always be a multiple of CFP$B. We call such addresses even.
 
-Thus return
-address on the stack (.crpp) and entry point addresses (.cepp) can be
-distinguished from block addresses they are forced to be odd (not a
-multiple of CFP$B ).  BEV and
-BOD branch according as operand is even or odd,
-respectively.
+Thus return address on the stack (.crpp) and entry point addresses (.cepp) can be distinguished
+from block addresses they are forced to be odd (not a multiple of CFP$B ).  BEV and BOD branch
+according as operand is even or odd, respectively.
 
  #### 3- Operations on the Code Pointer Register
 
-(CP )
+(CP)
 
 
-The code pointer register provides a psuedo instruction counter for
-use in an interpretor. It may be implemented as a real register or as
-a memory location, but in either case it is separate from any other
-register. the value in the code pointer register is always a word
-address (i.e.  a one word integer which is a multiple of
-CFP$B ).
+The code pointer register provides a psuedo instruction counter for use in an interpretor.
+It may be implemented as a real register or as a memory location, but in either case it is separate
+from any other register. the value in the code pointer register is always a word address 
+(i.e.  a one word integer which is a multiple of CFP$B ).
 
 *   3.1  LCP   _reg_
 
 Load code pointer register
 
-This instruction causes the code pointer register to be set from the
-value in _reg_ which is unchanged
+This instruction causes the code pointer register to be set from the value in _reg_ which is unchanged
 
 *   3.2  SCP   _reg_
 
-Store code pointer register this instruction loads the current value
-in the code pointer register into reg. (CP ) is unchanged.
+Store code pointer register this instruction loads the current value in the code pointer register into reg.
+(CP ) is unchanged.
 
 *   3.3  LCW  _reg_
 
 Load next code word
 
-This instruction causes the word pointed to by CP to
-be loaded into the indicated reg. The value in CP is
-then incremented by one word.
+This instruction causes the word pointed to by CP to be loaded into the indicated reg. The value
+in CP is then incremented by one word.
 
 Execution of LCW may destroy XL .
 
@@ -1361,9 +1285,8 @@ Execution of LCW may destroy XL .
 
 Increment CP  by one word
 
-On machines with more than three index registers, CP
-can be treated simply as an index register.  In this case, the
-following equivalences apply:
+On machines with more than three index registers, CP can be treated simply as an index register.
+In this case, the following equivalences apply:
 
 ```
 
@@ -1424,8 +1347,7 @@ Store integer accumulator at  _ops_
 
 Negate the value in the integer accumulator (change its sign)
 
-The equation satisfied by operands and results of DVI
-and RMI is
+The equation satisfied by operands and results of DVI and RMI is
 
 ```
             div = qot *  _ops_ + rem          where
@@ -1440,9 +1362,8 @@ they have opposite signs.
 
 The sign of (IA) is always used as the sign of the result of `rem`.
 
-Assuming in each case that IA contains the number
-specified in parentheses and that seven and msevn hold +7 and -7 resp.
-the algorithm is illustrated below.
+Assuming in each case that IA contains the number specified in parentheses and that seven and msevn
+hold +7 and -7 resp.  the algorithm is illustrated below.
 
 
 ```
@@ -1458,13 +1379,10 @@ the algorithm is illustrated below.
             RMI  msevn       IA  = -6
 ```
 
-The above instructions operate on a full range of signed integer
-values. with the exception of LDI and
-STI these instructions may cause integer overflow by
-attempting to produce an undefined or out of range result in which
-case integer overflow is set, The result in (IA) is
-undefined and the following instruction must be IOV
-or INO.
+The above instructions operate on a full range of signed integer values. with the exception of LDI and
+STI these instructions may cause integer overflow by attempting to produce an undefined or out of range
+result in which case integer overflow is set, The result in (IA) is undefined and the following
+instruction must be IOV or INO.
 
 Particular care may be needed on target machines having distinct overflow and divide by zero conditions.
 
@@ -1477,9 +1395,8 @@ Jump to _plbl_ if no integer overflow
 Jump to _plbl_ if integer overflow
 
 
-These instructions can only occur immediately following an instruction
-which can cause integer overflow (ADI, SBI MLI DVI RMI ngi)
-and test the result of the preceding instruction.
+These instructions can only occur immediately following an instruction which can cause integer overflow
+(ADI, SBI MLI DVI RMI NGI) and test the result of the preceding instruction.
 
 IOV and INO may not have labels.
 
@@ -1510,11 +1427,10 @@ Jump to _plbl_ if (IA) lt 0
 Jump to _plbl_ if (IA) ne 0
 
 
-The above conditional jump instructions do not change the contents of
-the accumulator.
+The above conditional jump instructions do not change the contents of the accumulator.
 
-On a ones complement machine, it is permissible to produce negative zero in IA provided these
-instructions operate correctly with such a value.
+On a ones complement machine, it is permissible to produce negative zero in IA provided these instructions
+operate correctly with such a value.
 
  #### 5- Operations on Real Values 
 
@@ -1546,9 +1462,8 @@ Divide real accumulator by  _ops_
 
 If the result of any of the above operations causes underflow, the result yielded is 0.0.
 
-The result of any of the above operations is undefined or out of
-range, real overflow is set, the contents of (RA) are undefined and
-the following instruction must be either ROV or RNO.
+The result of any of the above operations is undefined or out of range, real overflow is set,
+he contents of (RA) are undefined and the following instruction must be either ROV or RNO.
 
 Particular care may be needed on target machines having distinct overflow and divide by zero conditions.
 
@@ -1560,8 +1475,8 @@ Jump to _plbl_ real overflow
 
 Jump to _plbl_ no real overflow
 
-These instructions can only occur immediately following an instruction
-which can cause real overflow (ADR,SBR MLR DVR.
+These instructions can only occur immediately following an instruction which can cause real overflow
+(ADR,SBR MLR DVR.
 
 *   5.9 NGR
 
@@ -1631,42 +1546,37 @@ square root of real accumulat
 Tangent of real accumulator
 
 
-The above orders operate upon the real accumulator, and replace the
-contents of the accumulator with the result.
+The above orders operate upon the real accumulator, and replace the contents of the accumulator
+with the result.
 
-The result of any of the above operations is undefined or out of
-range, real overflow is set, the contents of (RA) are undefined and
-the following instruction must be either ROV or RNO
+The result of any of the above operations is undefined or out of range, real overflow is set,
+the contents of (RA) are undefined and the following instruction must be either ROV or RNO
 
 #### 6-  Operations on Character Values
 
 
-Character operations employ the concept of a character pointer which
-uses either index register XR or XL (not XS ).
+Character operations employ the concept of a character pointer which uses either index register XR or XL
+(not XS ).
 
-A character pointer points to a specific character in a string of
-characters stored CFP$C chars to a word.
+A character pointer points to a specific character in a string of characters stored CFP$C chars to a word.
 
-The only operations permitted on a character pointer are LCH
-and SCH. In particular, a character pointer may not even be moved with MOV
+The only operations permitted on a character pointer are LCH and SCH. In particular, a character pointer
+may not even be moved with MOV
 
 
 *   restriction 1
 
-It is important when coding in MINIMAL to ensure that no action
-occurring between the initial use of PLC or
-PSC and the eventual clearing of XL
-or XR on completion of character operations can
-initiate a garbage collection.
+It is important when coding in MINIMAL to ensure that no action occurring between the initial use of
+PLC or PSC and the eventual clearing of XL or XR on completion of character operations can initiate
+a garbage collection.
 
 The latter of course could cause the addressed characters to be moved leaving the character pointers
 pointing to rubbish.
 
 *   restriction 2.
 
-A further restriction to be observed in code handling character
-strings, is that strings built dynamically should be right padded with
-zero characters to a full word boundary to permit easy hashing and use
+A further restriction to be observed in code handling character strings, is that strings built dynamically
+should be right padded with zero characters to a full word boundary to permit easy hashing and use
 of CEQ or CNE in testing strings for equality.
 
 
@@ -1680,18 +1590,13 @@ Prepare character pointer for SCH MVC MCB
 
 _opv_ can be omitted it is zero.
 
-The character initially addressed is determined by the word address in _x_ and the integer offset
-_opv_.
+The character initially addressed is determined by the word address in _x_ and the integer offset _opv_.
 
-There is an automatic implied offset of CFP$F bytes.  CFP$F is used to
-formally introduce into MINIMAL a value needed in translating these
-opcodes which, since MINIMAL itself does not prescribe a string
-structure in detail, depends on the choice of a data structure for
-strings in the MINIMAL program.  e.g. CFP$B =
-CFP$C = 3, CFP$F = 6, num01 = 1,
-XL points to a series of 4 words, abc/def/ghi/jkl,
-then PLC XL ,=num01
-points to h.
+There is an automatic implied offset of CFP$F bytes.  CFP$F is used to formally introduce into MINIMAL
+a value needed in translating these opcodes which, since MINIMAL itself does not prescribe a string
+structure in detail, depends on the choice of a data structure for strings in the MINIMAL program. 
+e.g. CFP$B = CFP$C = 3, CFP$F = 6, num01 = 1, XL points to a series of 4 words, abc/def/ghi/jkl,
+then PLC XL ,=num01 points to h.
 
 
 *   6.3  LCH  _reg,opc_
@@ -1702,55 +1607,49 @@ Load character into register
 
 Store character from _reg_
 
-These operations are defined such that the character is right
-justified in register _reg_ with zero bits to the left.
+These operations are defined such that the character is right justified in register _reg_ with zero
+bits to the left.
 
-After LCH,  for example, it is legitimate to regard
-_reg_ as containing the ordinal integer corresponding to the
-character.
+After LCH,  for example, it is legitimate to regard _reg_ as containing the ordinal integer
+corresponding to the character.
 
 _opc_ is one of the following three possibilities.
 
 *   (x)  --
 
-The character pointed to by the character pointer in x. the
-character pointer is not changed.
+The character pointed to by the character pointer in x. the character pointer is not changed.
 
 *   (x)+  --
 
-Same character as (x) but the character pointer is incremented
-to point to the next character following execution.
+Same character as (x) but the character pointer is incremented to point to the next character following
+execution.
 
 *   -(x)  --
 
-The character pointer is decremented before accessing the
-character so that the previous character is referenced.
+The character pointer is decremented before accessing the character so that the previous character
+is referenced.
 
 *   6.5  CSC  _x_
 
 Complete store characters
 
-This instruction marks completion of a PSC sch,SCH ...,sch sequence initiated by a
-PSC x instruction.
+This instruction marks completion of a PSC sch,SCH ...,sch sequence initiated by a PSC x instruction.
 
-No more SCH instructions using x should be obeyed until another
-PSC is obeyed.
+No more SCH instructions using x should be obeyed until another PSC is obeyed.
 
 It is provided solely as an efficiency aid on machines without character orders since it permits use of
 register buffering of chars in sch sequences.
 
-Where CSC is not a no-op, it must observe restriction 2.
-(e.g. in SPITBOL, *alocs* zeroises the last word of a string frame prior
-to SCH sequence being started so CSC must not nullify this action.)
+Where CSC is not a no-op, it must observe restriction 2.  (e.g. in SPITBOL, *alocs* zeroises the last
+word of a string frame prior to SCH sequence being started so CSC must not nullify this action.)
 
-The following instructions are used to compare two words containing
-CFP$C characters.
+The following instructions are used to compare two words containing CFP$C characters.
 
-Comparisons distinct from BEQ BNE are provided as on some target machines, the
-possibility of the sign bit being set may require special action.
+Comparisons distinct from BEQ BNE are provided as on some target machines, the possibility of the
+sign bit being set may require special action.
 
-Note that restriction 2 above, eases use of these orders in testing
-complete strings for equality, since whole word tests are possible.
+Note that restriction 2 above, eases use of these orders in testing complete strings for equality,
+since whole word tests are possible.
 
 *   6.6  CEQ   _opw,opw,plbl_
 
