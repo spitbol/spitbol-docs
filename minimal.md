@@ -184,23 +184,21 @@ program to match the target machine.
 
 *   CFP$A
 
-Number of distinct characters in internal alphabet in the range 64
-le CFP$A le MAXLEN.
+Number of distinct characters in internal alphabet in the range 64 le CFP$A le MAXLEN.
 
 *   CFP$B
 
-Number of bytes in a word where a byte is the amount of storage
-addressed by the least significant address bit.
+Number of bytes in a word where a byte is the amount of storage addressed by the least
+significant address bit.
 
 *   CFP$C
 
- Number of characters which can be stored in a single word.
+Number of characters which can be stored in a single word.
 
 *   CFP$F
 
-Byte offset from start of a string block to the first character.
-depends both on target machine and string data structure. see
-PLC psc
+Byte offset from start of a string block to the first character. depends both on target machine
+and string data structure. see PLC psc
 
 *   CFP$I
 
@@ -208,15 +206,13 @@ PLC psc
 
 *   CFP$L
 
- The largest unsigned integer of form 2n - 1 which can be stored
-in a single word.  n will often be CFP$N but need not
-be.
+ The largest unsigned integer of form 2n - 1 which can be stored in a single word.
+_n_ will often be CFP$N but need not be.
 
 *   CFP$M
 
-The largest positive signed integer of form 2n - 1 which can be
-stored in a single word.  n will often be CFP$N -1
-but need not be.
+The largest positive signed integer of form 2n - 1 which can be stored in a single word.
+_n_ will often be CFP$N -1 but need not be.
 
 *   CFP$N
 
@@ -229,10 +225,9 @@ but need not be.
 *   CFP$S
 
 
-
-Number of significant digits to be output in conversion of a real
-quantity.  .if .CNCR .else the integer consisting of this number of 9s
-must not be too large to fit in the integer accum.  .fi
+Number of significant digits to be output in conversion of a real quantity.
+ .if .CNCR .else
+the integer consisting of this number of 9s must not be too large to fit in the integer accum.  .fi
 
 ```
 .if    .cucf
@@ -248,41 +243,31 @@ must not be too large to fit in the integer accum.  .fi
 
 
 
-Memory is organized into words which each contain
-CFP$B bytes. for word machines CFP$B,
-which is a configuration parameter, may be one in which case words
-and bytes are identical. To each word corresponds an address which is
-a non-negative quantity which is a multiple of CFP$B
+Memory is organized into words which each contain CFP$B bytes.For word machines CFP$B, which is
+a configuration parameter, may be one in which case words and bytes are identical.
+To each word corresponds an address which is a non-negative quantity which is a multiple of CFP$B
+
 .  Data is organized into words as follows.
 
 
 
-* A signed integer value occupies CFP$I consecutive
-words (CFP$I is a configuration parameter).  The
-range may include more negative numbers than positive (e.g. the twos
-complement representation).
+* A signed integer value occupies CFP$I consecutive words (CFP$I is a configuration parameter).
+The range may include more negative numbers than positive (e.g. the twos complement representation).
 
-*   A signed real value occupies CFP$R consecutive
-words. (CFP$R is a configuration parameter).
+*   A signed real value occupies CFP$R consecutive words. (CFP$R is a configuration parameter).
 
-   CFP$C characters may be stored in a single word
-(CFP$C is a configuration parameter).
+   CFP$C characters may be stored in a single word (CFP$C is a configuration parameter).
 
-*   A bit string containing CFP$N bits can be stored in a
-single word (CFP$N is a configuration parameter).
+*   A bit string containing CFP$N bits can be stored in a single word (CFP$N is a configuration parameter).
 
 
-*   A word can contain a unsigned integer value in the range (*0* le n le
-CFP$L . These integer values may represent addresses
-of other words and some of the instructions use this fact to provide
-indexing and indirection facilities.
+*   A word can contain a unsigned integer value in the range (*0* le n le CFP$L.
+These integer values may represent addresses of other words and some of the instructions use
+this fact to provide indexing and indirection facilities.
 
 *   Program instructions occupy
-words in an undefined manner. Depending on the actual implementation,
-instructions may occupy several words, or part of a word, or even be
-split over word boundaries.
-
-
+words in an undefined manner. Depending on the actual implementation, instructions may occupy several
+words, or part of a word, or even be split over word boundaries.
 
 The following regions of memory are available to the program. each
 region consists of a series of words with consecutive addresses.
@@ -437,13 +422,11 @@ are illegal, since they assume information storage above the stack top.
 
 ### Internal Character Set
 
-The internal character set is represented by a set of contiguous codes
-from 0 to CFP$A-1* . The codes for the digits 0-9 must
-be contiguous and in sequence. Other than this, there are no
+The internal character set is represented by a set of contiguous codes from 0 to CFP$A-1.
+The codes for the digits 0-9 must be contiguous and in sequence. Other than this, there are no
 restraints.
 
-The following symbols are automatically defined to have the value of
-the corresponding internal character code.
+The following symbols are automatically defined to have the value of the corresponding internal character code.
 
 ```
        ch$la                 letter a
@@ -494,8 +477,7 @@ the corresponding internal character code.
 ```
 
 
-The following optional symbols are incorporated by defining the
-conditional assembly symbol named.
+The following optional symbols are incorporated by defining the conditional assembly symbol named.
 
 ```
        26 shifted letters incorporated by defining .casl
@@ -512,11 +494,8 @@ conditional assembly symbol named.
 
 ## Conditional Assembly Features
 
-
-
-Some features of the interpreter are applicable to only certain target
-machines. they may be incorporated or omitted by use of conditional
-assembly. The full form of a condition is -
+Some features of the interpreter are applicable to only certain target machines. They may be incorporated
+or omitted by use of conditional assembly. The full form of a condition is -
 
 ```
        .if    conditional assembly symbol    (cas)
@@ -529,57 +508,48 @@ assembly. The full form of a condition is -
        The following rules apply
 
 
-1   The directives *.if*   *.then*   *.else*  *.fi* must
-            start in column 1.
+1   The directives *.if*   *.then*   *.else*  *.fi* must start in column 1.
 
-2      The conditional assembly symbol must start with a
-            dot in column 8 followed by 4 letters or digits e.g.
+2      The conditional assembly symbol must start with a dot in column 8 followed by 4 letters or digits e.g.
 ```
                .ca$1
 ```
 
 3 then is redundant and may be omitted if wished.
 
-4 _ms1_, _ms2_ are arbitrary sequences of MINIMAL
-            statements either of which may be null or may
+4 _ms1_, _ms2_ are arbitrary sequences of MINIMAL statements either of which may be null or may
             contain further conditions.
 
 5 If _ms2_ is omitted, .*else* may also be omitted.
 
 6 .*fi* is required.
 
-7 Conditions may be nested to a depth determined
-            by the translator (not less than 20, say).
+7 Conditions may be nested to a depth determined by the translator (not less than 20, say).
 
-Selection of the alternatives _ms1_, _ms2_ is by means of the
-       define and undefine directives of form -
+Selection of the alternatives _ms1_, _ms2_ is by means of the define and undefine directives of form -
 
 ```
        .*def*   _cas_
        .*undef* _cas_
 ```
 
-Which obey rules 1. and 2. above and may occur at any point in a
-MINIMAL program, including within a condition.  Multiply defining a
-symbol is an error.  Undefining a symbol which is not defined is not
+Which obey rules 1. and 2. above and may occur at any point in a MINIMAL program, including within
+a condition.  Multiply defining a symbol is an error.  Undefining a symbol which is not defined is not
 an error.
 
-The effect is that if a symbol is currently defined,
-then in any condition depending on it, _ms1_ will be
-processed and _ms2_ omitted. Conversely if it is undefined, _ms1_ will be
+The effect is that if a symbol is currently defined, then in any condition depending on it,
+_ms1_ will be processed and _ms2_ omitted. Conversely if it is undefined, _ms1_ will be
 omitted and _ms2_ processed.
 
 
-Nesting of conditions is such that conditions in a section not
-selected for processing must not be evaluated. nested conditions must
-remember their environment whilst being processed. Effectively this
-implies use of a scheme based on a stack with if *.fi* matching by the
-condition processor of the translator.
+Nesting of conditions is such that conditions in a section not selected for processing must not be
+evaluated. nested conditions must remember their environment whilst being processed. Effectively this
+implies use of a scheme based on a stack with if *.fi* matching by the condition processor of
+the translator.
 
 ## Operand Formats
 
-The following section describes the various possibilities for operands
-of instructions and assembly operations.
+The following section describes the various possibilities for operands of instructions and assembly operations.
 
 ```
       01   int              unsigned integer le CFP$L
@@ -659,52 +629,39 @@ depending on the data type. In the case of multiword operands, the address given
 
 
 
-_opw_ is used to refer to an operand whose capacity is that of
-a full memory word.  _opw_ includes all the possibilities for
-_ops_ (the referenced word is used) plus the use of one of the
-three work registers (WA,WB,WC).
-in addition, the formats (X)+ and -(X) allow indexed operations in
-which the index register is popped by one word after the reference
-(X)+, or pushed by one word before the reference -(X) these latter two
-formats provide a facility for manipulation of stacks. the format does
-not imply a particular direction in which stacks must build - it is
-used for compactness.
-Note that there is a restriction which disallows
-an instruction to use an index register in one of these formats in
-some other manner in the same instruction.  e.g.  MOV
-XL ,(XL)+ is illegal.  The formats
--(X) and (X)+ may also be used in pre-decrementation,
-post-incrementation to access the adjacent character of a string.
+_opw_ is used to refer to an operand whose capacity is that of a full memory word.  _opw_ includes all
+the possibilities for _ops_ (the referenced word is used) plus the use of one of the three work registers
+(WA,WB,WC).  in addition, the formats (X)+ and -(X) allow indexed operations in which the index register
+is popped by one word after the reference (X)+, or pushed by one word before the reference -(X) these latter two
+formats provide a facility for manipulation of stacks. the format does not imply a particular direction
+in which stacks must build - it is used for compactness.
+
+Note that there is a restriction which disallows an instruction to use an index register in one of
+these formats in some other manner in the same instruction.  e.g.  MOV XL ,(XL)+ is illegal.  The formats
+-(X) and (X)+ may also be used in pre-decrementation, post-incrementation to access the adjacent
+character of a string.
 
 * _opn_  as for  _opw_ + 07
 
             one word integer
 
 
-
-_opn_ is used to represent an operand location which can
-contain a one word integer (e.g. an address).  This includes all the
-possibilities for _opw_ plus the use of one of the index
-registers (XL ,XR, XT, or XS). The range of integer
-values is _0_ le n le CFP$L
+_opn_ is used to represent an operand location which can contain a one word integer (e.g. an address).
+This includes all the possibilities for _opw_ plus the use of one of the index registers (XL ,XR, XT,
+or XS). The range of integer values is _0_ le n le CFP$L
 
 * _opv_  as for  _opn_ + 18-22
 
          one word integer value
 
+_opv_ is used for an operand which can yield a one word integer value (e.g. an address). It includes
+all the possibilities for _opn_ (the current value of the location is used) plus the use of literals.
 
-
-_opv_ is used for an operand which can yield a one word integer
-value (e.g. an address). It includes all the possibilities for
-_opn_ (the current value of the location is used) plus the use
-of literals.
-Note that although the literal formats are described in
-terms of a reference to a location containing an address constant,
-This location may not actually exist in some implementations since
-only the value is required. A restriction is placed on literals which
-may consist only of defined symbols and certain labels. Consequently
-small integers to be used as literals must be pre-defined, a
-discipline aiding program maintenance and revision.
+Note that although the literal formats are described in terms of a reference to a location containing
+an address constant, This location may not actually exist in some implementations since only the value
+is required. A restriction is placed on literals which may consist only of defined symbols and certain
+labels. Consequently small integers to be used as literals must be pre-defined, a discipline aiding
+program maintenance and revision.
 
 
 * _addr_ 01,02,03,04,05
@@ -730,14 +687,10 @@ _addr_ is used to describe an explicit address value (one word integer value) fo
 
 
 
-The following list includes all instruction and assembly operation
-mnemonics in alphabetical order.  The mnemonics are preceded by a
-number identifying the following section where the instruction is
-described.  A star (\*) is appended to the mnemonic if the last operand
-may optionally be omitted.  See section -15- for details of statement
-format and comment conventions.
-
-
+The following list includes all instruction and assembly operation mnemonics in alphabetical order.
+The mnemonics are preceded by a number identifying the following section where the instruction is
+described.  A star (asterisk) is appended to the mnemonic if the last operand may optionally be omitted.
+See section -15- for details of statement format and comment conventions.
 
 
 
@@ -889,7 +842,7 @@ The following descriptions assume the definitions -
 
 #### 1-  Basic Instruction Set
 
-*   1.1  MOV   _opn,opv_  move one word value
+1.1  MOV   _opn,opv_  move one word value
 
 MOV causes the value of operand _opv_ to be set as the new contents of operand location _opn_.
 In the case where _opn_ is not an index register, any value which can normally occupy a
@@ -897,14 +850,14 @@ memory word (including a part of a multiword real or integer value) can be trans
 If the target location _opn_ is an index register, then _opv_ must specify an appropriate one
 word value or operand containing such an appropriate value.
 
-* 1.2  BRN  _plbl_    unconditional branch
+1.2  BRN  _plbl_    unconditional branch
 
 BRN causes control to be passed to the indicated
 label in the program section.
 
-*   1.3  BSW  _x,val,plbl_    branch on switch value
+1.3  BSW  _x,val,plbl_    branch on switch value
 
-* 1.4  IFF  _val,plbl_        provide branch for switch
+1.4  IFF  _val,plbl_        provide branch for switch
 
 ```
             IFF  val,_plbl_     ...
@@ -912,7 +865,7 @@ label in the program section.
             ...
 ```
 
-*   1.5  ESW      end of branch switch table
+1.5  ESW      end of branch switch table
 
 
 BSW IFF,ESW provide a capability for a switched branch similar to a fortran computed goto.
@@ -931,7 +884,7 @@ IFF and ESW may only be used in this contextxt.  Execution of BSW may destroy th
 The IFF entries may be in any order and since a translator may thus need to store and sort them,
 the comment field is restricted in length (sec 11).
 
-*   1.6  ENT  _val_ define program entry point
+1.6  ENT  _val_ define program entry point
 
 The symbol appearing in the label field is defined to be a program entry point which can
 subsequently be used in conjunction with the BRI instruction, which provides the only
@@ -960,7 +913,7 @@ following restriction is observed
 Entry point addresses are accessible only by use of literals (=_elbl_, section 7) or
 DAC constants (section 8-11.1).
 
-*   1.7  BRI   _opn_      branch indirect
+   1.7  BRI   _opn_      branch indirect
 
 _opn_ contains the address of a program entry point (see ent).  control is passed to the
 executable code starting at the entry point address.  _opn_ is left unchanged.
