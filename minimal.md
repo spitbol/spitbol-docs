@@ -1913,7 +1913,7 @@ The final value of WA is undefined.
 
 WA ,XL , XR must be set up before obeying MWB .
 
-*   9.4  MCB
+9.4  MCB
 
 
 
