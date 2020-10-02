@@ -570,7 +570,7 @@ The following section describes the various possibilities for operands of instru
       16   integer          signed integer (dic)
       17   real             signed real (drc)
       18   =dlbl            location containing dac dlbl
-      19   *dlbl            location containing dac CFP$Bdlbl
+      19   *dlbl            location containing dac CFP$B*dlbl
       20   =wlbl            location containing dac wlbl
       21   =clbl            location containing dac clbl
       22   =elbl            location containing dac elbl
@@ -586,7 +586,6 @@ The numbers in the above list are used in subsequent description and in some of 
 
 The following special symbols refer to a collection of the listed possibilities
 
-
 *   _val_  01,02
 
     predefined value
@@ -595,11 +594,9 @@ The following special symbols refer to a collection of the listed possibilities
 
 _val_ is used to refer to a predefined one word integer value in the range 0 le n le CFP$L
 
-_reg_  07,08
+*  _reg_  07,08
 
 register
-
-
 
 _reg_ is used to describe an operand which can be any of the registers (XL , XR , XS ,XT , WA ,
 WB , WC ). Such an operand can hold a one word integer (address).
@@ -607,8 +604,6 @@ WB , WC ). Such an operand can hold a one word integer (address).
 * _opc_  09,10,11
 
                    character
-
-
 
 _opc_ is used to designate a specific character operand for use in the LCH and SCH instructions.
 the index register referenced must be either XR or XL (not XS ,XT). see section on character
@@ -618,16 +613,12 @@ operations.
 
        memory reference
 
-
-
 _ops_ is used to describe an operand which is in memory. the operand may be one or more words long
 depending on the data type. In the case of multiword operands, the address given is the first word.
 
 * _opw_  as for  _ops_ + 08,10,11
 
       full word
-
-
 
 _opw_ is used to refer to an operand whose capacity is that of a full memory word.  _opw_ includes all
 the possibilities for _ops_ (the referenced word is used) plus the use of one of the three work registers
@@ -644,7 +635,6 @@ character of a string.
 * _opn_  as for  _opw_ + 07
 
             one word integer
-
 
 _opn_ is used to represent an operand location which can contain a one word integer (e.g. an address).
 This includes all the possibilities for _opw_ plus the use of one of the index registers (XL ,XR, XT,
@@ -1096,7 +1086,6 @@ Adds  _opv_ to the value in  _opn_ and stores the result in  _opn_.  Undefined i
 2.2  SUB   _opn,opv_
 
 
-
 Subtracts _opv_ from _opn_, and stores the result in _opn_. Undefined if the result is negative.
 
 2.3  ICA   _opn_
@@ -1533,7 +1522,7 @@ of CEQ or CNE in testing strings for equality.
 
 6.1  PLC  _x,opv_
 
-Prepare ch ptr for LCH CMC mvc,TRC MCB
+Prepare ch ptr n _x_for LCH, CMC, MCB, MVC, and TRC
 
 6.2  PSC  _x,opv_
 
@@ -1676,8 +1665,7 @@ Or bit string values, result in _w_
 
 Exclusive or bit string values, result in _w_
 
-In the above operations, the logical connective is applied separately
-to each of the CFP$N bits.  The result is stored in the second operand location.
+In the above operations, the logical connective is applied separately to each of the CFP$N bits.
 
 7.4  CMB  _w_
 
@@ -1788,20 +1776,17 @@ required for a text string.
 
 8.7  CTW  _w,val_
 
-This instruction computes the sum (number of words required to store w
-characters) + (val). the sum is stored in _w_.
+This instruction computes the sum (number of words required to store w characters) + (val).
+The sum is stored in _w_.
 
-For example, CFP$C is 5, and WA contains 32, then
-CTW WA,2 gives a result of 9 in WA.
+For example, CFP$C is 5, and WA contains 32, then CTW WA,2 gives a result of 9 in WA.
 
 8.8  CTB  w,val
 
-CTB is exactly like CTW except that the result is in bytes. it has the
-same effect as CTW w,_val_  WTB w
+CTB is exactly like CTW except that the result is in bytes. it has the same effect as CTW w,_val_  WTB w
 
-The following instructions provide for conversion from
-integers to and from numeric digit characters for use in numeric
-conversion routines. They employ negative integer values to allow for
+The following instructions provide for conversion from integers to and from numeric digit characters
+for use in numeric conversion routines. They employ negative integer values to allow for
 proper conversion of numbers which cannot be complemented.
 
 
@@ -1829,8 +1814,6 @@ WA. For example, an operand of -523 gives a quotient of -52 and a
 remainder in WA of CH$D3.
 
 #### 9-  Block Move Instructions
-
-
 
 The following instructions are used for transferring data from one
 area of memory to another in blocks.  They can be implemented with the
@@ -1868,8 +1851,6 @@ The character pointers are bumped as indicated and the final value of WA is unde
 
               move words
 
-
-
 MVW is equivalent to the sequence
 
 ```
@@ -1878,8 +1859,6 @@ MVW is equivalent to the sequence
              bnz  WA,lo opw
 
 ```
-
-
 
 Note that this implies that the value in WA is the length in bytes
 which is a multiple of CFP$B .
@@ -1933,8 +1912,6 @@ MCB is equivalent to the sequence
 ```
 
 
-
-
 There is a requirement that the initial value in XL
 be at least 256 less than the value in XR . this
 allows an implementation in which chunks of 256 bytes are moved
@@ -1946,30 +1923,23 @@ obeying MCB
 
 #### 10- Operations Connected with the Stack
 
-
 The stack is an area in memory which is dedicated for use in
 conjunction with the stack pointer register (XS ). As
 previously described, it is used by the JSR and EXI
 instructions and may be used for storage of any other data as
 required.
 
-
-
 The stack builds either way in memory and an important restriction is
 that the value in (XS ) must be the address of the
 stack front at all times since some implementations may randomly
 destroy stack locations beyond (XS ).
-
 
 The starting stack base address is passed in (XS ) at
 The start of execution. During execution it is necessary to make sure
 that the stack does not overflow. This is achieved by executing the
 following instruction periodically.
 
-
-
 10.1 CHK
-
 
 Check stack overflow
 
@@ -2754,101 +2724,80 @@ Input and output have three arguments referred to as an
 `input(variable name,file arg1,file arg2)`
 `output(variable name,file arg1,file arg2)`
 
-File *arg1* may be an integer or string used to identify an
-i/o channel. It is converted to a string for checking.
+File *arg1* may be an integer or string used to identify an i/o channel. It is converted to a string for checking.
 
-The exact significance of file *arg2* is not rigorously
-prescribed but to improve portability, The scheme described in the
-SPITBOL user manual should be adopted when possible. The preferred
+The exact significance of file *arg2* is not rigorously prescribed but to improve portability,
+The scheme described in the SPITBOL user manual should be adopted when possible. The preferred
 form is
 
-A string "f,r,c,i,...,z"  where
-*f* is an optional file name which is placed first.
-remaining items may be omitted or included in any order.
+A string "f,r,c,i,...,z"  where _f_ is an optional file name which is placed first. remaining items
+may be omitted or included in any order.
 
-*r* is maximum record length
+_r_ is maximum record length
 
-*c* is a carriage control character or character string
+_c_ is a carriage control character or character string
 
-*i* is some form of channel identification used in the
-absence of *f* to associate the variable with a file allocated dynamically by jcl commands at
-SPITBOL load time.
+_i_ is some form of channel identification used in the absence of _f_ to associate the variable
+with a file allocated dynamically by jcl commands at SPITBOL load time.
 
-,...,*z* are additional fields.
+,...,_z_ are additional fields.
 
-If , (comma) cannot be used as a delimiter, .ciod should be defined
-to introduce by conditional assembly another delimiter (see```
-iodel equ \*``` early in definitions section).
+If , (comma) cannot be used as a delimiter, `.ciod` should be defined to introduce by conditional assembly
+another delimiter (see
+
+```
+	iodel equ \*
+
+```
+
+early in definitions section).
 
 SYSFC is called when a variable is input or output associated to check file _arg1_ and file _arg2_ and to
-report whether an FCBLK (file control block) is
-necessary and if so what size it should be.
+report whether an FCBLK (file control block) is necessary and if so what size it should be.
 
-This makes it possible for SPITBOL rather than osint to allocate
-such a block in dynamic memory if required or alternatively in static
-memory.
+This makes it possible for SPITBOL rather than osint to allocate such a block in dynamic memory if
+required or alternatively in static memory.
 
-The significance of an FCBLK , if one is
-requested, is entirely up to the system interface.
+The significance of an FCBLK , if one is requested, is entirely up to the system interface.
 
-The only restriction is that if the FCBLK should
-appear to lie in dynamic memory, pointers to it should be proper
-pointers to the start of a recognisable and garbage collectable block
-(this condition will be met if SYSFC requests SPITBOL
-to provide an FCBLK).
+The only restriction is that if the FCBLK should appear to lie in dynamic memory, pointers to it
+will be met if SYSFC requests SPITBOL to provide an FCBLK).
 
-An option is provided for osint to return a pointer in
-XL to an FCBLK which it privately
-allocated. This pointer will be made available when i/o occurs later.
-private FCBLKs may have arbitrary contents and
-SPITBOL stores nothing in them.
+should be proper pointers to the start of a recognisable and garbage collectable block (this condition
+An option is provided for osint to return a pointer in XL to an FCBLK which it privately allocated. 
+This pointer will be made available when i/o occurs later.  Private FCBLKs may have arbitrary contents
+and SPITBOL stores nothing in them.
 
-The requested size for an FCBLK in dynamic memory
-should allow a 2 word overhead for block type and length fields.
+The requested size for an FCBLK in dynamic memory should allow a 2 word overhead for block type and length fields.
 
-Information subsequently stored in the remaining words may be
-arbitrary if an xnblk (external non-relocatable block) is requested.
+Information subsequently stored in the remaining words may be arbitrary if an xnblk (external
+ non-relocatable block) is requested.
 
-If the request is for an xr*blk*
-(external relocatable block) the contents of words should be
-collectable (i.e.  any apparent pointers into dynamic should be
-genuine block pointers).
+If the request is for an_ xrblk_ (external relocatable block) the contents of words should be collectable
+(i.e.  any apparent pointers into dynamic should be genuine block pointers).
 
-These restrictions do not apply if an FCBLK is
-allocated outside dynamic or is not allocated at all.
+These restrictions do not apply if an FCBLK is allocated outside dynamic or is not allocated at all.
 
-If an FCBLK is requested, its fields will be
-initialised to zero before entry to SYSIO with the
-exception of words 0 and 1 in which the block type and length fields
-are placed for FCBLKs in dynamic memory only.
+If an FCBLK is requested, its fields will be initialised to zero before entry to SYSIO with the exception
+of words 0 and 1 in which the block type and length fields are placed for FCBLKs in dynamic memory only.
 
-For the possible use of SYSEJ and
-SYSXI, if FCBLKs are used, a chain
-is built so that they may all be found - see SYSXI
-for details.
+For the possible use of SYSEJ and SYSXI, if FCBLKs are used, a chain is built so that they may all be
+found - see SYSXI for details.
 
 
-If both file _arg1_ and file _arg2_ are null, calls
-of SYSFC and SYSIO are omitted.
+If both file _arg1_ and file _arg2_ are null, calls of SYSFC and SYSIO are omitted.
 
-If file _arg1_ is null (standard input/output file),
-SYSFC is called to check non-null file _arg2_
-but any request for an FCBLK will be ignored, since
-SPITBOL handles the standard files specially and cannot readily keep
-FCBLK pointers for them.file _arg1_ is
-type checked by SPITBOL so further checking may be unneccessary in
-many implementations.  file _arg2_ is passed so that
-SYSFC may analyse and check it. however to assist in
-this, SPITBOL also passes on the stack the components of this argument
-with file name, _f_ (otherwise null) extracted and stacked first.
+If file _arg1_ is null (standard input/output file), SYSFC is called to check non-null file _arg2_ but any
+request for an FCBLK will be ignored, since SPITBOL handles the standard files specially and cannot readily
+keep FCBLK pointers for them.file _arg1_ is type checked by SPITBOL so further checking may be unneccessary
+in many implementations.  file _arg2_ is passed so that SYSFC may analyse and check it. however to assist in
+this, SPITBOL also passes on the stack the components of this argument with file name, _f_ (otherwise null)
+extracted and stacked first.
 
-The other fields, if any, are extracted as substrings, pointers to
-them are stacked and a count of all items stacked is placed in
-WC.
+The other fields, if any, are extracted as substrings, pointers to them are stacked and a count of all items
+stacked is placed in WC.
 
-If an FCBLK was earlier
-allocated and pointed to via file _arg1_, SYSFC is also passed a pointer to this
-FCBLK.
+If an FCBLK was earlier allocated and pointed to via file _arg1_, SYSFC is also passed a pointer to this FCBLK.
 
 ```
       (XL)                  file arg1 scblk ptr (2nd arg)
@@ -2871,20 +2820,16 @@ FCBLK.
 
 ### SYSGC -- inform interface of garbage collections
 
-Provides means for interface to take special actions prior to and
-after a garbage collection.
+Provides means for interface to take special actions prior to and after a garbage collection.
 
-Possible usages- 
+Possible usages:
 
-provide visible screen icon of garbage collection in
-progress.
+* provide visible screen icon of garbage collection in progress.
 
-inform virtual memory manager to ignore page access patterns
-during garbage collection.  such accesses typically destroy the page
-working set accumulated by the program.
+* inform virtual memory manager to ignore page access patterns during garbage collection.
+Such accesses typically destroy the page working set accumulated by the program.
 
-inform virtual memory manager that contents of memory freed by
-garbage collection can be discarded. 
+* Inform virtual memory manager that contents of memory freed by garbage collection can be discarded. 
 
 ```
       (XR)                  non-zero if beginning gc
@@ -2898,28 +2843,26 @@ garbage collection can be discarded.
 
 ### SYSHS -- give access to host computer features
 
-Provides means for implementing special features on different host
-computers.  the only defined entry is that where all arguments are
-null in which case SYSHS *SYSHS* returns an SCBLK containing name of computer, name of
-operating system and name of site separated by colons.
+Provides means for implementing special features on different host computers.  The only defined entry is
+that where all arguments are null in which case SYSHS *SYSHS* returns an SCBLK containing name of computer,
+name of operating system and name of site separated by colons.
 
 The SCBLK need not have a correct first field as this is supplied on copying string to dynamic memory.
 
-SPITBOL does no argument checking but does provide a single error return for arguments checked as erroneous by osint.  It also provides
-a single execution error return.
+SPITBOL does no argument checking but does provide a single error return for arguments checked as erroneous
+by osint.  It also provides a single execution error return.
 
-If these are inadequate, use may be made of the minimal error section direct as described in minimal documentation, section 10.
+If these are inadequate, use may be made of the minimal error section direct as described in
+minimal documentation, section 10.
+
 
 Several non-error returns are provided. the first corresponds to the defined entry or, for implementation
 defined entries, any string may be returned. the others permit respectively,  return a null result, return with a
-result to be stacked which is pointed at by XR, and a
-return causing SPITBOL statement failure.
+result to be stacked which is pointed at by XR, and a return causing SPITBOL statement failure.
 
-If a returned result is in dynamic memory it must obey garbage
-collector rules.
+If a returned result is in dynamic memory it must obey garbage collector rules.
 
-The only results copied on return are strings returned via PPM loc3
-return.
+The only results copied on return are strings returned via PPM loc3 return.
 
 ```
        (WA)                  argument 1
@@ -2940,29 +2883,25 @@ return.
 
 ### SYSID -- return system identification
 
-This routine should return strings to head the standard printer
-output. the first string will be appended to a heading line of the
-form
+This routine should return strings to head the standard printer output. the first string will be
+appended to a heading line of the form
 
 ```
     MACRO SPITBOL version v.v
 ```
 
-Supplied by SPITBOL itself. v.v are digits giving the major version
-number and generally at least a minor version number relating to osint
-should be supplied to give say
+Supplied by SPITBOL itself. v.v are digits giving the major version number and generally at least a
+minor version number relating to osint should be supplied to give say
 
 ```
     MACRO SPITBOL version v.v(m.m)
 ```
 
-The second string should identify at least the machine and
-operating system.  preferably it should include the date and time of
-the run.  optionally the strings may include site name of the the
-implementor and/or machine on which run takes place, unique site or
-copy number and other information as appropriate without making it so
-long as to be a nuisance to users.  the first words of the
-SCBLKs pointed at need not be correctly set.
+The second string should identify at least the machine and operating system.  preferably it should include
+the date and time of the run.  Optionally the strings may include site name of the the implementor and/or
+machine on which run takes place, unique site or copy number and other information as appropriate without
+making it so long as to be a nuisance to users.  the first words of the SCBLKs pointed at need not be
+correctly set.
 
 
 ```
@@ -3390,9 +3329,8 @@ start.
 
 ### SYSST -- set file pointer
 
-SYSST is called to change the position of a file
-pointer. this is accomplished in a system dependent manner, and thus
-the 2nd and 3rd arguments are passed unconverted.
+SYSST is called to change the position of a file pointer. this is accomplished in a system dependent manner,
+and thus the 2nd and 3rd arguments are passed unconverted.
 
 ```
        (WA)                  FCBLK pointer
@@ -3408,14 +3346,11 @@ the 2nd and 3rd arguments are passed unconverted.
 
 ### SYSTM -- get execution time so far
 
-SYSTM is used to obtain the amount of execution
-time used so far since SPITBOL was given control. the units are
-described as milliseconds in the SPITBOL output, but the exact meaning
-is system dependent. where appropriate, this value should relate to
-processor rather than clock timing values.
+SYSTM is used to obtain the amount of execution time used so far since SPITBOL was given control.
+the units are described as milliseconds in the SPITBOL output, but the exact meaning is system dependent.
+where appropriate, this value should relate to processor rather than clock timing values.
 
-If the symbol `.ctm` is defined, the units are described as
-deciseconds (0.1 second).
+If the symbol `.ctm` is defined, the units are described as deciseconds (0.1 second).
 
 ```
        JSR  systm            call to get timer value
@@ -3425,9 +3360,8 @@ deciseconds (0.1 second).
 
 ###  SYSTT -- trace toggle
 
-Called by SPITBOL function trace() with no args to toggle the
-system trace switch.  this permits tracing of labels in SPITBOL code
-to be turned on or off.
+Called by SPITBOL function trace() with no args to toggle the system trace switch.  this permits tracing
+of labels in SPITBOL code to be turned on or off.
 
 ```
        JSR  systt            call to toggle trace switch
@@ -3435,79 +3369,61 @@ to be turned on or off.
 
 ### SYSUL -- unload external function
 
-SYSUL is used to unload a function previously
-loaded with a call to SYSLD.
+SYSUL is used to unload a function previously loaded with a call to SYSLD.
 
 ```
        (XR)                  pointer to control block (efblk)
        JSR  SYSUL            call to unload function
 ```
 
-The function cannot be called following a SYSUL
-call until another SYSLD call is made for the same function.
+The function cannot be called following a SYSUL call until another SYSLD call is made for the same function.
 
-The EFBLK contains the function code pointer and
-also a pointer to the vrblk containing the function name (see
+The EFBLK contains the function code pointer and also a pointer to the vrblk containing the function name (see
 definitions and data structures section).
 
 ### SYSXI -- exit to produce load module
 
-When SYSXI is called, XL contains either a string pointer or zero. In the former case, the
-string gives the character name of a program. The intention is that
-SPITBOL execution should be terminated forthwith and the named program
-loaded and executed.
+When SYSXI is called, XL contains either a string pointer or zero. In the former case, the string gives
+the character name of a program. The intention is that SPITBOL execution should be terminated forthwith
+and the named program loaded and executed.
 
-This type of chain execution is very system dependent and
-implementors may choose to omit it or find it impossible to provide.
+This type of chain execution is very system dependent and implementors may choose to omit it or find
+it impossible to provide.
 
-If *(XL)* is zero,ia contains one of the following
+If _(XL)_ is zero,ia contains one of the following
 integers
 
 ```
 -1, -2, -3, -4
-    Create if possible a load module containing only the
-    impure area of memory which needs to be loaded with
-    a compatible pure segment for subsequent executions.
-    Version numbers to check compatibility should be
-    kept in both segments and checked on loading.
-    To assist with this check, (XR) on entry is a
-    pointer to an SCBLK containing the SPITBOL major
-    version number v.v (see SYSID).  The file thus
+    Create if possible a load module containing only the impure area of memory which needs to be
+    loaded with a compatible pure segment for subsequent executions.  Version numbers to check compatibility
+    should be kept in both segments and checked on loading.  To assist with this check, (XR) on
+    entry is a pointer to an SCBLK containing the SPITBOL major version number v.v (see SYSID).  The file thus
     created is called a save file.
 
-0    If possible, return control to job control
-    command level. The effect if available will be
-    system dependent.
+0    If possible, return control to job control command level. The effect if available will be system dependent.
 
 +1, +2, +3, +4
-    Create if possible a load module from all of
-    memory. It should be possible to load and execute
+    Create if possible a load module from all of memory. It should be possible to load and execute
     this module directly.
 ```
 
-In the case of saved load modules, the status of open files is not
-preserved and implementors may choose to offer means of attaching
-files before execution of load modules starts or leave it to the user
-to include suitable input(), output() calls in his program.
-SYSXI should make a note that no i/o channels,
-including standard files, have files attached so that calls of
-SYSIN, SYSOU, SYSPR,
+In the case of saved load modules, the status of open files is not preserved and implementors may choose to
+offer means of attaching files before execution of load modules starts or leave it to the user to include
+suitable input(), output() calls in his program.  SYSXI should make a note that no i/o channels, including
+standard files, have files attached so that calls of SYSIN, SYSOU, SYSPR,
 
-SYSRD should fail unless new associations are made for the load module.  at least in the case of the standard output file,
+SYSRD should fail unless new associations are made for the load module.  at least in the case of the
+standard output file,
 
-It is recommended that either the user be required to attach a file
-or that a default file is attached, since the problem of error
-messages generated by the load module is otherwise severe.As a
-last resort, if SPITBOL attempts to write to the standard output file
-and gets a reply indicating that such ouput is unacceptable it stops
-by using an entry to SYSEJ with ending code 998.  As
-described below, passing of some arguments makes it clear that load
-module will use a standard output file.
+It is recommended that either the user be required to attach a file or that a default file is attached,
+since the problem of error messages generated by the load module is otherwise severe.As a last resort,
+if SPITBOL attempts to write to the standard output file and gets a reply indicating that such ouput is
+unacceptable it stops by using an entry to SYSEJ with ending code 998.  As described below, passing of
+some arguments makes it clear that load module will use a standard output file.
 
-If use is made of FCBLKs for i/o association,
-SPITBOL builds a chain so that those in use may be found in
-SYSXI and SYSEJ. The nodes are 4
-words long. The third word contains link to next node or 0, and the
+If use is made of FCBLKs for i/o association, SPITBOL builds a chain so that those in use may be found in
+SYSXI and SYSEJ. The nodes are 4 words long. The third word contains link to next node or 0, and the
 fourth word contains a FCBLK pointer.
 
 ```
@@ -3525,26 +3441,23 @@ fourth word contains a FCBLK pointer.
                              in which case 1 should be returned.
 ```
 
-Loading and running the load module or returning from jcl command level causes execution 
-to resume at the point after the error returns which follow the call of SYSXI.
-The value passed as exit argument is used to indicate options required on resumption of load module.
+Loading and running the load module or returning from jcl command level causes execution to resume at the
+point after the error returns which follow the call of SYSXI.  The value passed as exit argument is used
+to indicate options required on resumption of load module.
 
-The values +1 or -1 require that on resumption, SYSID and
-SYSPP be called and a heading printed on the standard
-output file.
+The values +1 or -1 require that on resumption, SYSID and SYSPP be called and a heading printed on the
+standard output file.
 
-The values +2 or -2 indicate that SYSPP will be called but not SYSID
-and no heading will be put on standard output file.
+The values +2 or -2 indicate that SYSPP will be called but not SYSID and no heading will be put
+on standard output file.
 
-Above options have the obvious implication that a standard o/p file 
-must be provided for the load module.
+Above options have the obvious implication that a standard o/p file must be provided for the load module.
 
-The values +3, +4, -3 or -4 indicate calls of neither SYSID nor
-SYSPP and no heading will be placed on standard output file.
+The values +3, +4, -3 or -4 indicate calls of neither SYSID nor SYSPP and no heading will be placed on
+standard output file.
 
-The values  +4 or -4 indicate that execution is to continue after creation of
-the save file or load module, although all files will be closed by the
-SYSXI action.  This permits the user to checkpoint
-long-running programs while continuing execution.
+The values  +4 or -4 indicate that execution is to continue after creation of the save file or load module,
+although all files will be closed by the SYSXI action.  This permits the user to checkpoint long-running
+programs while continuing execution.
 
 No return from SYSXI is possible if another program is loadednd entered.
