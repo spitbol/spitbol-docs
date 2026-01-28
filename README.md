@@ -24,10 +24,15 @@ systems with Catspaw's SNOBOL4+ manual, while providing more complete
 explanations of some concepts. Any observed clarity is this manual is due to
 Ed, while the more opaque portions can be blamed on me.
 
-You can learn more about Ed at [Ed's web site](http://www.edquillen.com/) and
+You can learn more about Ed at 
 [ Denver Post columnist Ed Quillen dies at age 61 in his Salida
 home](http://www.denverpost.com/obituaries/ci_20781716/denver-post-columnist-
 ed-quillen-dies-at-age).
+
+#### errata.md
+
+Corrections for the spitbol-manual-v3.7.pdf document.
+
 
 ### v37.min
 
