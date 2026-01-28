@@ -6,14 +6,14 @@ This directory contains the documentation files for Macro SPITBOL.
 
 These documents rarely change.
 
-### [The SNOBOL4 Programming Language](docs/green-book.pdf) by R. E. Griswold, J. F. Poage and I. P. Polonski.
+### [The SNOBOL4 Programming Language](green-book.pdf) by R. E. Griswold, J. F. Poage and I. P. Polonski.
 
 This is the classic "Green Book" (because of the cover of its color). It is a marvel of typography, and first
 introduced the use of "beads" to explain SNOBOL pattern matching.
 
 
 
-### [MACRO SPITBOL: The High-Performance SNOBOL4 Language](docs/spitbol-manual-v3.7.pdf) by Mark Emmer and Edward Quillen.
+### [MACRO SPITBOL: The High-Performance SNOBOL4 Language](spitbol-manual-v3.7.pdf) by Mark Emmer and Edward Quillen.
 
 The SPITBOL project notes with sadness the death of Ed Quillen in June, 2012.
 To quote from Mark Emmer's Acknowledgments in the SPITBOL Manual:
@@ -24,14 +24,14 @@ systems with Catspaw's SNOBOL4+ manual, while providing more complete
 explanations of some concepts. Any observed clarity is this manual is due to
 Ed, while the more opaque portions can be blamed on me.
 
-You can learn more about Ed at 
+You can learn more about Ed at
 [ Denver Post columnist Ed Quillen dies at age 61 in his Salida
 home](http://www.denverpost.com/obituaries/ci_20781716/denver-post-columnist-
 ed-quillen-dies-at-age).
 
 #### errata.md
 
-Corrections for the spitbol-manual-v3.7.pdf document.
+[Corrections for the spitbol-manual-v3.7.pdf document](errata.md).
 
 
 ### v37.min
@@ -52,12 +52,3 @@ to all lower case.
 ## Licensing
 
 SPITBOL is licensed using the GPLv2 (or later) license.
-
-[COPYING](COPYING) contains a copy of the GPLv2 license.
-
-[COPYING-SAVE-FILE](COPYING-SAVE-FILES) describes licensing issues for a
-SPITBOL "save file."
-
-[COPYING-LOAD-MODULES](COPYING-LOAD-MODULES) describes licensing issues for a
-SPITBOL "load module."
-
